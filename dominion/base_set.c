@@ -1,23 +1,22 @@
 #include "base_set.h"
 
 struct card_stack ** base_set() {
-    const int SUPPLY_PILES = 33;
     struct card_stack ** base_set = (struct card_stack **)malloc(SUPPLY_PILES * sizeof(struct card_stack *));
     if (base_set == NULL) { return NULL; }
     struct card_stack ** p_base_set = base_set;
     int i, * instructions;
     int CARD_COUNTS[] = {
-        30, 24, 12,
-        12, 60, 40,
-        30, 10, 10,
-        10, 10, 10,
-        10, 10, 10,
-        10, 12, 10,
-        10, 10, 10,
-        10, 10, 10,
-        10, 10, 10,
-        10, 10, 10,
-        10, 10, 10
+        30, 24, 12,     /* Curse, Estate, Duchy */
+        12, 60, 40,     /* Province, Copper, Silver */
+        30, 10, 10,     /* Gold, Cellar, Chapel */
+        10, 10, 10,     /* Moat, Harbinger, Merchant */
+        10, 10, 10,     /* Vassal, Village, Workshop */
+        10, 12, 10,     /* Bureaucrat, Gardens, Militia */
+        10, 10, 10,     /* Moneylender, Poacher, Remodel */
+        10, 10, 10,     /* Smithy, Throne Room, Bandit */
+        10, 10, 10,     /* Council Room, Festival, Laboratory */
+        10, 10, 10,     /* Library, Market, Mine */
+        10, 10, 10      /* Sentry, Witch, Artisan */
     }, * p_card_counts = CARD_COUNTS;
 
     /* Initialize new card stacks */
