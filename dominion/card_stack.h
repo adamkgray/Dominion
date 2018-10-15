@@ -11,5 +11,10 @@ struct card_stack {
 };
 
 struct card_stack * new_card_stack(int limit);
+struct card * pop_card(struct card_stack *);
+struct card * pop_card_at(int i, struct card_stack *);
+int push_card(struct card * p_card, struct card_stack * to);
+int add_cards(int n, int type, char * name, int cost, int value, int * instructions, struct card_stack * to);
+int pop_and_push(struct card_stack * p_to, struct card_stack * p_from);
 
 #endif

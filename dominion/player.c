@@ -18,10 +18,12 @@ struct player * new_player(char * name) {
 
     p_player->name = name;                                                      /* Set name */
     p_player->victory_points = 0;                                               /* VP initialized to 0 */
+    p_player->actions = 1;                                                      /* Actions initialized to 1 */
+    p_player->buys = 1;                                                         /* Buys initialized to 1 */
     p_player->deck = deck;                                                      /* set deck */
     p_player->hand = hand;                                                      /* set hand */
     p_player->discard = discard;                                                /* set discard */
-    p_player->play_area = play_area;                                            /* set discard */
+    p_player->play_area = play_area;                                            /* set play_area */
 
     return p_player;
 }

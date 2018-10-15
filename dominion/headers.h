@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include "card.h"
 #include "card_stack.h"
-#include "add_cards.h"
-#include "gain.h"
 #include "draw.h"
 #include "randomize.h"
 #include "player.h"

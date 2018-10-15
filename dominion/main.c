@@ -10,7 +10,7 @@ int main(void) {
 
     /* Create a new table */
     struct table * p_table = new_table(select_playing_cards(base_set()), player_count, names);
-    if (p_table == NULL) { fprintf(stderr, "Not enough memory available to play dominion\n"); return 1; }
+    if (p_table == NULL) { fprintf(stderr, "Memory error"); return 1; }
 
     /* Each player shuffles their deck of 10 cards */
     int i, j;

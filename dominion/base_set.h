@@ -1,9 +1,8 @@
 #ifndef BASE_SET_H_
 #define BASE_SET_H_
 
-#include "card_stack.h"
-#include "add_cards.h"
 #include <stdlib.h>
+#include "card_stack.h"
 
 #define VICTORY      1
 #define TREASURE     2
