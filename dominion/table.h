@@ -3,6 +3,10 @@
 
 #include "card_stack.h"
 #include "player.h"
+#include "gain.h"
+
+#define COPPER 4
+#define ESTATE 1
 
 struct table {
     int turn;

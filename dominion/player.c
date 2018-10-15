@@ -13,11 +13,15 @@ struct player * new_player(char * name) {
     struct card_stack * discard = new_card_stack(10);                           /* Create new discard pile */
     if (discard == NULL) { return NULL; }
 
+    struct card_stack * play_area = new_card_stack(5);                           /* Create new discard pile */
+    if (play_area == NULL) { return NULL; }
+
     p_player->name = name;                                                      /* Set name */
     p_player->victory_points = 0;                                               /* VP initialized to 0 */
     p_player->deck = deck;                                                      /* set deck */
     p_player->hand = hand;                                                      /* set hand */
     p_player->discard = discard;                                                /* set discard */
+    p_player->play_area = play_area;                                            /* set discard */
 
     return p_player;
 }

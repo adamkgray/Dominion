@@ -1,10 +1,7 @@
 #include "table.h"
-#include "gain.h"
 
 struct table * new_table(struct card_stack ** supply_piles, int player_count, char ** names) {
     int i, j;
-    const int COPPER = 4;
-    const int ESTATE = 1;
 
     if (supply_piles == NULL) { return NULL; }  /* If the supply piles didn't initialize, return NULL */
 

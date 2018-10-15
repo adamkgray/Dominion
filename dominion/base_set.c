@@ -1,7 +1,7 @@
 #include "base_set.h"
 
 struct card_stack ** base_set() {
-    struct card_stack ** base_set = (struct card_stack **)malloc(SUPPLY_PILES * sizeof(struct card_stack *));
+    struct card_stack ** base_set = (struct card_stack **)malloc(BASE_COUNT * sizeof(struct card_stack *));
     if (base_set == NULL) { return NULL; }
     struct card_stack ** p_base_set = base_set;
     int i, * instructions;
@@ -20,12 +20,12 @@ struct card_stack ** base_set() {
     }, * p_card_counts = CARD_COUNTS;
 
     /* Initialize new card stacks */
-    for (p_base_set = base_set, p_card_counts = CARD_COUNTS, i = 0; i < SUPPLY_PILES; ++i) {
+    for (p_base_set = base_set, p_card_counts = CARD_COUNTS, i = 0; i < BASE_COUNT; ++i) {
         *(p_base_set++) = new_card_stack(*(p_card_counts++));
     }
 
     /* Check for NULL pointers */
-    for (i = 0, p_base_set = base_set; i < SUPPLY_PILES; ++i) {
+    for (i = 0, p_base_set = base_set; i < BASE_COUNT; ++i) {
         if (*(p_base_set++) == NULL) { return NULL; }
     }
 
