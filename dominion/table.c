@@ -15,8 +15,8 @@ struct table * new_table(struct card_stack ** supply_piles, int player_count, ch
         p_players[i] = new_player(names[i]);
         if (p_players[i] == NULL) { return NULL; }
         /* No need to check for enough memory because supply piles and player decks are intiailized with enough space */
-        for (j = 0; j < 7; ++j) { gain(p_players[i]->deck, supply_piles[COPPER]); } /* 7 coppers */
-        for (j = 0; j < 3; ++j) { gain(p_players[i]->deck, supply_piles[ESTATE]); } /* 3 estates */
+        for (j = 0; j < 7; ++j) { pop_and_push(p_players[i]->deck, supply_piles[COPPER]); } /* 7 coppers */
+        for (j = 0; j < 3; ++j) { pop_and_push(p_players[i]->deck, supply_piles[ESTATE]); } /* 3 estates */
     }
 
     p_table->players = p_players;               /* Set players in player array */
