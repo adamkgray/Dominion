@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 
+#define N_ELEMS(arr) (sizeof(arr) / sizeof(arr[0]))
+
 struct card {
     int type;
     char * name;

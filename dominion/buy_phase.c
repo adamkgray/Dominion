@@ -5,11 +5,7 @@ void buy_phase(struct table * p_table) {
     if (p_player->buys == 0) { return; }    /* If player has no more buys, return */
 
     /* TODO: UI */
-    /* Give player option to end buys
-    if (user ends buys) {
-        return forfeit_buys(p_player);
-    }
-    */
+    /* Give player option to end buys */
 
     /* TODO: UI */
     /* Player moves treasures to play area */

@@ -6,7 +6,6 @@
 #include "card.h"
 #include "card_stack.h"
 
-#define N_ELEMS(arr) (sizeof(arr) / sizeof(arr[0]))
 
 void swap_cards(struct card ** a, struct card ** b);
 void randomize_cards(struct card ** arr, int n);

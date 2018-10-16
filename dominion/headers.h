@@ -12,6 +12,7 @@
 #include "table.h"
 #include "base_set.h"
 #include "select_playing_cards.h"
+#include "each_player_shuffles_their_deck_and_draws_five_cards.h"
 #include "action_phase.h"
 #include "buy_phase.h"
 #include "cleanup_phase.h"

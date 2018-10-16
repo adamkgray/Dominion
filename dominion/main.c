@@ -12,18 +12,7 @@ int main(void) {
     struct table * p_table = new_table(select_playing_cards(base_set()), player_count, names);
     if (p_table == NULL) { fprintf(stderr, "Memory error"); return 1; }
 
-    /* Each player shuffles their deck of 10 cards */
-    int i, j;
-    for (i = 0; i < p_table->player_count; ++i) {
-        randomize_cards(p_table->players[i]->deck->cards, 10);
-    }
-
-    /* Each player draws 5 cards */
-    for (i = 0; i < p_table->player_count; ++i) {
-        for (j = 0; j < 5; ++j) {
-            draw(p_table->players[i]);
-        }
-    }
+    each_player_shuffles_their_deck_and_draws_five_cards(p_table);
 
     /* Begin the game */
     gameplay(p_table);

@@ -20,8 +20,8 @@ void cleanup_phase(struct table * p_table) {
     }
 
     /* Player gets 1 action and 1 buy */
-    ++(p_player->actions);
-    ++(p_player->buys);
+    p_player->actions = 1;
+    p_player->buys = 1;
 
     /* Next turn */
     p_table->turn = (p_table->turn == p_table->player_count - 1) ? 0 : p_table->turn + 1;
