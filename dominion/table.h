@@ -1,11 +1,9 @@
 #ifndef TABLE_H_
 #define TABLE_H_
 
+#include "definitions.h"
 #include "card_stack.h"
 #include "player.h"
-
-#define COPPER 4
-#define ESTATE 1
 
 struct table {
     int turn;
