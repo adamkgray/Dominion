@@ -31,4 +31,6 @@
 #define EACH_OTHER_PLAYER_DRAWS_CARD 13                     /* [x] */
 #define TRASH_UP_TO_FOUR_CARDS 14                           /* [ ] */
 
+#define BLUE_ON_WHITE 1
+
 #endif

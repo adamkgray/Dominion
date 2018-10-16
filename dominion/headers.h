@@ -3,7 +3,8 @@
 
 #include <stdlib.h>
 #include <time.h>
-#include <stdio.h>
+#include <ncurses.h>
+
 #include "card.h"
 #include "card_stack.h"
 #include "draw.h"
@@ -18,5 +19,8 @@
 #include "cleanup_phase.h"
 #include "end_conditions.h"
 #include "gameplay.h"
+
+#include "interface.h"
+#include "title_screen.h"
 
 #endif

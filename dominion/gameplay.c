@@ -2,10 +2,7 @@
 
 struct table * gameplay(struct table * p_table) {
     /* Simulate gameplay */
-    static int turn_counter = 1;
-    printf("%d\n", turn_counter);
     pop_and_push(p_table->players[p_table->turn]->discard, p_table->supply_piles[3]);
-    ++turn_counter;
 
     /* Action phase */
     action_phase(p_table);
