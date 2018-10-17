@@ -2,13 +2,11 @@
 #define GAMEPLAY_H_
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "table.h"
-#include "action_phase.h"
-#include "buy_phase.h"
-#include "cleanup_phase.h"
-#include "end_conditions.h"
+#include "phases.h"
+#include "definitions.h"
 
 struct table * gameplay(struct table * p_table);
+int end_conditions(struct table * p_table);
 
 #endif
