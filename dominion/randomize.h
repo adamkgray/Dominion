@@ -3,8 +3,7 @@
 
 #include <time.h>
 #include <stdlib.h>
-#include "card.h"
-#include "card_stack.h"
+#include "cards.h"
 
 
 void swap_cards(struct card ** a, struct card ** b);

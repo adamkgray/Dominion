@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include "definitions.h"
-#include "card_stack.h"
+#include "cards.h"
 #include "randomize.h"
 
 struct card_stack ** base_set();

@@ -1,4 +1,4 @@
-#include "base_set.h"
+#include "dominion_base.h"
 
 struct card_stack ** base_set() {
     struct card_stack ** base_set = (struct card_stack **)malloc(BASE_COUNT * sizeof(struct card_stack *));

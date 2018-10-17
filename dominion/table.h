@@ -2,7 +2,7 @@
 #define TABLE_H_
 
 #include "definitions.h"
-#include "card_stack.h"
+#include "cards.h"
 #include "player.h"
 
 struct table {

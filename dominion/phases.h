@@ -4,7 +4,7 @@
 #include "table.h"
 #include "cards.h"
 #include "player.h"
-#include "base_set.h"
+#include "dominion_base.h"
 #include "execute_instructions.h"
 #include "draw.h"
 

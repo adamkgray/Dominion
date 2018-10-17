@@ -13,8 +13,7 @@
 #include "draw.h"
 #include "player.h"
 #include "table.h"
-#include "base_set.h"
-#include "select_playing_cards.h"
+#include "dominion_base.h"
 #include "phases.h"
 #include "gameplay.h"
 

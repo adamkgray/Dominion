@@ -2,9 +2,9 @@
 #define EXECUTE_INSTRUCTIONS_H_
 
 #include "definitions.h"
-#include "draw.h"
-#include "card.h"
+#include "cards.h"
 #include "table.h"
+#include "draw.h"
 
 void execute_action_card_instructions(struct card * action_card, struct table * p_table);
 void execute_instruction(int instruction, struct table * p_table);

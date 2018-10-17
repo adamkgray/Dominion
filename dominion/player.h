@@ -1,7 +1,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include "card_stack.h"
+#include "cards.h"
 
 struct player {
     char * name;

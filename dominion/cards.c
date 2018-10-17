@@ -1,5 +1,4 @@
-#include "card.h"
-#include <stdio.h>
+#include "cards.h"
 
 struct card * new_card(int type, char * name, int cost, int value, int * instructions) {
     struct card * p_card = (struct card *)malloc(sizeof(struct card));
