@@ -1,10 +1,15 @@
 # Dominion
-A C implementation of the card game "Dominion"
 
-![Screen Shot](https://raw.githubusercontent.com/adamkgray/Dominion/blob/master/screen_shot.png)
+The deck building game, but now for the terminal. Written in C with `ncurses`.
+
+![Screen Shot](http://graymado.s3.amazonaws.com/title_screen.png)
 
 ## TODO
 * Game logic
-    * Handle Action card 'instructions'
+    * handle Action card 'instructions'
 * Interface
-    * ..
+    * select player count
+    * select player names
+    * phases
+    * action card effects
+    * ...
