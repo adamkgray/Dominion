@@ -15,4 +15,6 @@ void title_screen(struct interface * p_interface) {
     x += 2;
     mvprintw(y, x, "Press any key to continue");
     getch();
+    getch();
+    getch();
 }

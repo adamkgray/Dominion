@@ -1,8 +1,17 @@
-#ifndef CARD_STACK_H_
-#define CARD_STACK_H_
+#ifndef CARD_H_
+#define CARD_H_
 
 #include <stdlib.h>
-#include "card.h"
+
+#define N_ELEMS(arr) (sizeof(arr) / sizeof(arr[0]))
+
+struct card {
+    int type;
+    char * name;
+    int cost;
+    int value;
+    int * instructions;
+};
 
 struct card_stack {
     int card_count;         /* Number of cards currently in the stack */
@@ -10,6 +19,7 @@ struct card_stack {
     struct card ** cards;   /* Array of cards */
 };
 
+struct card * new_card(int type, char * name, int cost, int value, int * instructions);
 struct card_stack * new_card_stack(int limit);
 struct card * pop_card(struct card_stack *);
 struct card * pop_card_at(int i, struct card_stack *);
