@@ -1,7 +1,7 @@
 # Dominion
 A C implementation of the card game "Dominion"
 
-![Screen Shot](https://raw.githubusercontent.com/adamkgray/Dominion/blob/master/screen_shot.png)
+![Screen Shot](http://graymado.s3.amazonaws.com/title_screen.png)
 
 ## TODO
 * Game logic
