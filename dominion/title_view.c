@@ -1,6 +1,6 @@
-#include "title_screen.h"
+#include "title_view.h"
 
-void title_screen(struct interface * p_interface) {
+void title_view(struct interface * p_interface) {
     int y = (p_interface->center_y / 2) - 1;
     int x = p_interface->center_x - 6;
     attron(COLOR_PAIR(BLUE_ON_WHITE));
@@ -14,7 +14,5 @@ void title_screen(struct interface * p_interface) {
     ++y;
     x += 2;
     mvprintw(y, x, "Press any key to continue");
-    getch();
-    getch();
     getch();
 }

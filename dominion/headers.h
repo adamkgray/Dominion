@@ -19,6 +19,7 @@
 
 /* Interface */
 #include "interface.h"
-#include "title_screen.h"
+#include "title_view.h"
+#include "player_select_view.h"
 
 #endif

@@ -38,5 +38,6 @@
 
 /* Interface color pairs */
 #define BLUE_ON_WHITE 1
+#define BLACK_ON_WHITE 2
 
 #endif
