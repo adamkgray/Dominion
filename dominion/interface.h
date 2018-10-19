@@ -1,13 +1,14 @@
 #ifndef INTERFACE_H_
 #define INTERFACE_H_
 
-struct interface {
-    int left_x;
-    int right_x;
-    int top_y;
-    int bottom_y;
-    int center_x;
-    int center_y;
-};
+#include <stdint.h>
+typedef struct {
+    int16_t left_x;
+    int16_t right_x;
+    int16_t top_y;
+    int16_t bottom_y;
+    int16_t center_x;
+    int16_t center_y;
+} interface;
 
 #endif

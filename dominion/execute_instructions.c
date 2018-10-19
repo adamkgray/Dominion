@@ -1,17 +1,17 @@
 #include "execute_instructions.h"
 
-void execute_action_card_instructions(struct card * p_action_card, struct table * p_table) {
-    int i, * instructions, instruction_count;
+void execute_action_card_instructions(card * p_action_card, table * p_table) {
+    int8_t * instructions, instruction_count;
     instructions = p_action_card->instructions;
-    instruction_count = sizeof(instructions) / sizeof(int);
+    instruction_count = sizeof(instructions) / sizeof(int8_t);
 
-    for (i = 0; i < instruction_count; ++i) {
+    for (int8_t i = 0; i < instruction_count; ++i) {
         execute_instruction(instructions[i], p_table);
     }
 }
 
-void execute_instruction(int instruction, struct table * p_table) {
-    struct player * p_player = p_table->players[p_table->turn];
+void execute_instruction(int8_t instruction, table * p_table) {
+    player * p_player = p_table->players[p_table->turn];
     switch (instruction) {
         case PLUS_CARD:
             draw(p_player);
@@ -40,29 +40,27 @@ void execute_instruction(int instruction, struct table * p_table) {
     return;
 }
 
-void each_other_player_draws_card(struct table * p_table) {
-    int i;
-    for (i = 0; i < p_table->player_count; ++i) {   /* For each player, */
+void each_other_player_draws_card(table * p_table) {
+    for (int8_t i = 0; i < p_table->player_count; ++i) {   /* For each player, */
         if (i != p_table->turn) {                   /* whose turn it is not ... */
             draw(p_table->players[i]);              /* ... draw a card */
         }
     }
 }
 
-void gain_gold_to_hand(struct player * p_player, struct table * p_table) {
+void gain_gold_to_hand(player * p_player, table * p_table) {
     pop_and_push(p_player->hand, p_table->supply_piles[GOLD]);
 }
 
-void gain_silver_to_deck(struct player * p_player, struct table * p_table) {
+void gain_silver_to_deck(player * p_player, table * p_table) {
     pop_and_push(p_player->deck, p_table->supply_piles[SILVER]);
 }
 
 /* TODO: In the case that there are 3 players, someone plays a witch,
  * and there is only one curse left, who should get it?
  */
-void each_other_player_gains_curse(struct table * p_table) {
-    int i;
-    for (i = 0; i < p_table->player_count; ++i) {                                       /* For each player, */
+void each_other_player_gains_curse(table * p_table) {
+    for (int8_t i = 0; i < p_table->player_count; ++i) {                                       /* For each player, */
         if (i != p_table->turn) {                                                       /* whose turn it is not ... */
             pop_and_push(p_table->players[i]->discard, p_table->supply_piles[0]);       /* ... give them a curse (0) */
         }

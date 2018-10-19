@@ -1,6 +1,6 @@
 #include "draw.h"
 
-void draw(struct player * p_player) {
+void draw(player * p_player) {
     /* If the deck is empty, transfer all discard to deck and shuffle */
     if (p_player->deck->card_count == 0) {
         /* Transfer all cards from discard to deck */
@@ -8,7 +8,7 @@ void draw(struct player * p_player) {
             pop_and_push(p_player->deck, p_player->discard);
         }
         /* Shuffle */
-        int n = p_player->deck->card_count;
+        int8_t n = p_player->deck->card_count;
         randomize_cards(p_player->deck->cards, n);
     }
     /* Move card from deck to hand */

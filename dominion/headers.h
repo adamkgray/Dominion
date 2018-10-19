@@ -2,6 +2,7 @@
 #define HEADERS_H_
 
 /* Standard libraries */
+#include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
 #include <ncurses.h>

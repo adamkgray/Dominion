@@ -1,33 +1,33 @@
 #include "randomize.h"
 
-void swap_cards(struct card ** a, struct card ** b) {
-    struct card * temp;
+void swap_cards(card ** a, card ** b) {
+    card * temp;
     temp = *a;
     *a = *b;
     *b = temp;
 }
 
-void randomize_cards(struct card * arr[], int n) {
-    static int seed_offset = 1;
-    int i, j;
+void randomize_cards(card * arr[], int8_t n) {
+    static int8_t seed_offset = 1;
+    int32_t j;
     srand(time(NULL));
-    for (i = n - 1; i > 0; i--) {
+    for (int8_t i = n - 1; i > 0; i--) {
         j = (rand() + (seed_offset++)) % (i + 1);
         swap_cards(arr + i, arr + j);
     }
 }
 
-void swap_indeces(int * a, int * b) {
-    int temp;
+void swap_indeces(int8_t * a, int8_t * b) {
+    int8_t temp;
     temp = *a;
     *a = *b;
     *b = temp;
 }
 
-void randomize_indeces(int arr[], int n) {
-    int i, j;
+void randomize_indeces(int8_t arr[], int8_t n) {
+    int32_t j;
     srand(time(NULL));
-    for (i = n - 1; i > 0; i--) {
+    for (int8_t i = n - 1; i > 0; i--) {
         j = rand() % (i + 1);
         swap_indeces(arr + i, arr + j);
     }

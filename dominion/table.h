@@ -1,17 +1,18 @@
 #ifndef TABLE_H_
 #define TABLE_H_
 
+#include <stdint.h>
 #include "definitions.h"
 #include "cards.h"
 #include "player.h"
 
-struct table {
-    int turn;
-    int player_count;
-    struct player ** players;
-    struct card_stack ** supply_piles;
-};
+typedef struct {
+    int8_t turn;
+    int8_t player_count;
+    player ** players;
+    card_stack ** supply_piles;
+} table;
 
-struct table * new_table(struct card_stack ** supply_piles, int player_count, char * names);
+table * new_table(card_stack ** supply_piles, int8_t player_count, char * names);
 
 #endif

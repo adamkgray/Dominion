@@ -1,11 +1,11 @@
 #include "player_select_view.h"
 
-void player_select_view(struct interface * p_interface, int * player_count, int * player_types, char * names) {
+void player_select_view(interface * p_interface, int8_t * player_count, int8_t * player_types, char * names) {
     /* Get player count */
     select_player_count(p_interface, player_count, 2);
 
     /* Initialize all spaces in names to null */
-    for (int i = 0; i < (*player_count * 8); ++i) {
+    for (int8_t i = 0; i < (*player_count * 8); ++i) {
         names[i] = '\0';
     }
 
@@ -21,17 +21,17 @@ void player_select_view(struct interface * p_interface, int * player_count, int 
     return;
 }
 
-void enter_names(struct interface * p_interface, int player_count, int player_types, char * names, int option, int pos) {
-    int y = (p_interface->center_y / 2) - 1;
-    int x = p_interface->center_x - 17;
+void enter_names(interface * p_interface, int8_t player_count, int8_t player_types, char * names, int8_t option, int8_t pos) {
+    int16_t y = (p_interface->center_y / 2) - 1;
+    int16_t x = p_interface->center_x - 17;
 
     if (option < player_count) {
-        if (player_types & (int)pow(2, option)) { /* Player is flagged as human */
+        if (player_types & (int8_t)pow(2, option)) { /* Player is flagged as human */
             /* Print current name input */
             mvprintw(y++, x, "Enter name for player [%d]: %.8s", option + 1, names + (8 * option));
             mvprintw(y--, x, "(8 characters max)");
 
-            int c = getch();
+            int16_t c = getch();
             if (pos < 8 && isalpha(c)) {                        /* If input is alphabetical ... */
                 (names + (8 * option))[pos++] = c;              /* update the names array at correct pos */
             } else if (pos > 0 && (c == '\b' || c == 127)) {    /* If pos greater than 0 and input is backspace ...*/
@@ -53,9 +53,9 @@ void enter_names(struct interface * p_interface, int player_count, int player_ty
     return;
 }
 
-void select_player_count(struct interface * p_interface, int * player_count, int option) {
-    int y = (p_interface->center_y / 2) - 1;
-    int x = p_interface->center_x - 12;
+void select_player_count(interface * p_interface, int8_t * player_count, int8_t option) {
+    int16_t y = (p_interface->center_y / 2) - 1;
+    int16_t x = p_interface->center_x - 12;
 
     mvprintw(y++, x, "Select number of players");
     ++y;
@@ -73,7 +73,7 @@ void select_player_count(struct interface * p_interface, int * player_count, int
         attroff(COLOR_PAIR(BLACK_ON_WHITE));
     }
 
-    int c = getch();
+    int16_t c = getch();
     switch (c) {
         case KEY_UP:
             return select_player_count(p_interface, player_count, 2);
@@ -89,17 +89,17 @@ void select_player_count(struct interface * p_interface, int * player_count, int
     }
 }
 
-void human_or_cpu(struct interface * p_interface, int player_count, int * player_types, int option) {
-    int y = (p_interface->center_y / 2) - 1;
-    int x = p_interface->center_x - 8;
+void human_or_cpu(interface * p_interface, int8_t player_count, int8_t * player_types, int8_t option) {
+    int16_t y = (p_interface->center_y / 2) - 1;
+    int16_t x = p_interface->center_x - 8;
 
-    for (int i = 0; i < player_count; ++i) {
+    for (int8_t i = 0; i < player_count; ++i) {
         if (i == option) { attron(COLOR_PAIR(BLACK_ON_WHITE)); }
-        mvprintw(y++, x, "player [%d] %s", i + 1, ((int)pow(2, i) & *player_types) ? "human" : "cpu  ");
+        mvprintw(y++, x, "player [%d] %s", i + 1, ((int8_t)pow(2, i) & *player_types) ? "human" : "cpu  ");
         if (i == option) { attroff(COLOR_PAIR(BLACK_ON_WHITE)); }
     }
 
-    int c = getch();
+    int16_t c = getch();
     switch(c) {
         case KEY_UP:
             option -= (option > 0) ? 1 : 0;
@@ -108,10 +108,10 @@ void human_or_cpu(struct interface * p_interface, int player_count, int * player
             option += (option < player_count - 1) ? 1 : 0;
             return human_or_cpu(p_interface, player_count, player_types, option);
         case KEY_LEFT:
-            *player_types |= (int)pow(2, option);
+            *player_types |= (int8_t)pow(2, option);
             return human_or_cpu(p_interface, player_count, player_types, option);
         case KEY_RIGHT:
-            *player_types &= ~(int)pow(2, option);
+            *player_types &= ~(int8_t)pow(2, option);
             return human_or_cpu(p_interface, player_count, player_types, option);
         case 10:
         case 13:

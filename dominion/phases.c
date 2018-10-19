@@ -1,8 +1,8 @@
 #include "phases.h"
 
-void cleanup_phase(struct table * p_table) {
+void cleanup_phase(table * p_table) {
     /* Get pointer to player whose turn it is */
-    struct player * p_player = p_table->players[p_table->turn];
+    player * p_player = p_table->players[p_table->turn];
 
     /* Transfer all cards in hand to discard pile */
     while (p_player->hand->card_count > 0) {
@@ -27,8 +27,8 @@ void cleanup_phase(struct table * p_table) {
     p_table->turn = (p_table->turn == p_table->player_count - 1) ? 0 : p_table->turn + 1;
 }
 
-void action_phase(struct table * p_table){
-    struct player * p_player = p_table->players[p_table->turn];
+void action_phase(table * p_table){
+    player * p_player = p_table->players[p_table->turn];
     if (p_player->actions == 0) { return; }    /* If player has no more actions, return */
 
     /* TODO: UI */
@@ -44,26 +44,19 @@ void action_phase(struct table * p_table){
     return action_phase(p_table);
 }
 
-void forfeit_actions(struct player * p_player) {
+void forfeit_actions(player * p_player) {
     p_player->actions = 0;
     return;
 }
 
-void buy_phase(struct table * p_table) {
-    struct player * p_player = p_table->players[p_table->turn];
-    if (p_player->buys == 0) { return; }    /* If player has no more buys, return */
+void buy_phase(table * p_table) {
+    player * p_player = p_table->players[p_table->turn];
+    if (p_player->buys == 0) {
+        return;
+    }
 
-    /* TODO: UI */
-    /* Give player option to end buys */
-
-    /* TODO: UI */
-    /* Player moves treasures to play area */
-
-    /* TODO: UI */
-    /* Count up value added to play area */
-
-    /* TODO: UI */
-    /* Let player buy stuff */
+    int8_t play_area_value = 0;
+    buy_phase_view(p_table, p_player, &play_area_value);
 
     /* decrement buys */
     --(p_player->buys);
@@ -72,7 +65,7 @@ void buy_phase(struct table * p_table) {
     return buy_phase(p_table);
 }
 
-void forfeit_buys(struct player * p_player) {
+void forfeit_buys(player * p_player) {
     p_player->buys = 0;
     return;
 }

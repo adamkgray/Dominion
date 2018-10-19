@@ -16,7 +16,7 @@ int main(void) {
     init_pair(BLACK_ON_WHITE, COLOR_BLACK, COLOR_WHITE);
 
     /* Initialize interface */
-    struct interface * p_interface = (struct interface *)malloc(sizeof(struct interface));
+    interface * p_interface = (interface *)malloc(sizeof(interface));
     p_interface->left_x   = 0;
     p_interface->right_x  = COLS - 1;
     p_interface->top_y    = 0;
@@ -27,13 +27,13 @@ int main(void) {
     title_view(p_interface);
 
     /* Gather player details */
-    int player_count;
-    int player_types = 1;
+    int8_t player_count;
+    int8_t player_types = 1;
     char names[24];
     player_select_view(p_interface, &player_count, &player_types, names);
 
     /* Create a new table */
-    struct table * p_table = new_table(select_playing_cards(base_set()), player_count, names);
+    table * p_table = new_table(select_playing_cards(base_set()), player_count, names);
     if (p_table == NULL) {
         endwin();
         fprintf(stderr, "Memory error\n");
@@ -41,19 +41,19 @@ int main(void) {
     }
 
     /* Shuffle decks */
-    for (int i = 0; i < p_table->player_count; ++i) {
+    for (int8_t i = 0; i < p_table->player_count; ++i) {
         randomize_cards(p_table->players[i]->deck->cards, 10);
     }
 
     /* Draw five cards */
-    for (int i = 0; i < p_table->player_count; ++i) {
-        for (int j = 0; j < 5; ++j) {
+    for (int8_t i = 0; i < p_table->player_count; ++i) {
+        for (int8_t j = 0; j < 5; ++j) {
             draw(p_table->players[i]);
         }
     }
 
     /* Begin the game */
-    gameplay(p_table);
+    gameplay(p_interface, p_table);
 
     /* Stop curses */
     endwin();

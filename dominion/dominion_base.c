@@ -1,11 +1,11 @@
 #include "dominion_base.h"
 
-struct card_stack ** base_set() {
-    struct card_stack ** base_set = (struct card_stack **)malloc(BASE_COUNT * sizeof(struct card_stack *));
+card_stack ** base_set() {
+    card_stack ** base_set = (card_stack **)malloc(BASE_COUNT * sizeof(card_stack *));
     if (base_set == NULL) { return NULL; }
-    struct card_stack ** p_base_set = base_set;
+    card_stack ** p_base_set = base_set;
 
-    int CARD_COUNTS[] = {
+    int8_t CARD_COUNTS[] = {
         30, 24, 12,     /* Curse, Estate, Duchy */
         12, 60, 40,     /* Province, Copper, Silver */
         30, 10, 10,     /* Gold, Cellar, Chapel */
@@ -20,7 +20,7 @@ struct card_stack ** base_set() {
     }, * p_card_counts = CARD_COUNTS;
 
     /* Initialize new card stacks */
-    int i;
+    int8_t i;
     for (i = 0, p_base_set = base_set, p_card_counts = CARD_COUNTS; i < BASE_COUNT; ++i) {
         *(p_base_set++) = new_card_stack(*(p_card_counts++));
     }
@@ -30,24 +30,24 @@ struct card_stack ** base_set() {
         if (*(p_base_set++) == NULL) { return NULL; }
     }
 
-    int witch_instr[]           = {PLUS_CARD, PLUS_CARD, EACH_OTHER_PLAYER_GAINS_CURSE};
-    int cellar_instr[]          = {PLUS_ACTION};
-    int chapel_instr[]          = {TRASH_UP_TO_FOUR_CARDS};
-    int moat_instr[]            = {PLUS_CARD, PLUS_CARD};
-    int harbinger_instr[]       = {PLUS_CARD, PLUS_ACTION};
-    int merchant_instr[]        = {PLUS_CARD, PLUS_ACTION};
-    int vassal_instr[]          = {PLUS_COIN, PLUS_COIN};
-    int village_instr[]         = {PLUS_CARD, PLUS_ACTION, PLUS_ACTION};
-    int workshop_instr[]        = {GAIN_CARD_COSTING_UP_TO_FOUR};
-    int bureaucrat_instr[]      = {GAIN_SILVER_TO_DECK};
-    int militia_instr[]         = {PLUS_COIN, PLUS_COIN};
-    int moneylender_instr[]     = {TRASH_COPPER_FOR_PLUS_THREE};
-    int poacher_instr[]         = {PLUS_CARD, PLUS_ACTION, PLUS_COIN, DISCARD_A_CARD_PER_EMPTY_SUPPLY_PILE};
-    int remodel_instr[]         = {TRASH_CARD_AND_GAIN_ONE_COASTING_UP_TO_TWO_MORE};
-    int smithy_instr[]          = {PLUS_CARD, PLUS_CARD, PLUS_CARD};
-    int throne_room_instr[]     = {PLAY_ACTION_CARD_FROM_HAND_TWICE};
-    int bandit_instr[]          = {GAIN_GOLD_TO_HAND};
-    int council_room_instr[]    = {PLUS_CARD, PLUS_CARD, PLUS_CARD, PLUS_CARD, PLUS_BUY, EACH_OTHER_PLAYER_DRAWS_CARD};
+    int8_t witch_instr[]           = {PLUS_CARD, PLUS_CARD, EACH_OTHER_PLAYER_GAINS_CURSE};
+    int8_t cellar_instr[]          = {PLUS_ACTION};
+    int8_t chapel_instr[]          = {TRASH_UP_TO_FOUR_CARDS};
+    int8_t moat_instr[]            = {PLUS_CARD, PLUS_CARD};
+    int8_t harbinger_instr[]       = {PLUS_CARD, PLUS_ACTION};
+    int8_t merchant_instr[]        = {PLUS_CARD, PLUS_ACTION};
+    int8_t vassal_instr[]          = {PLUS_COIN, PLUS_COIN};
+    int8_t village_instr[]         = {PLUS_CARD, PLUS_ACTION, PLUS_ACTION};
+    int8_t workshop_instr[]        = {GAIN_CARD_COSTING_UP_TO_FOUR};
+    int8_t bureaucrat_instr[]      = {GAIN_SILVER_TO_DECK};
+    int8_t militia_instr[]         = {PLUS_COIN, PLUS_COIN};
+    int8_t moneylender_instr[]     = {TRASH_COPPER_FOR_PLUS_THREE};
+    int8_t poacher_instr[]         = {PLUS_CARD, PLUS_ACTION, PLUS_COIN, DISCARD_A_CARD_PER_EMPTY_SUPPLY_PILE};
+    int8_t remodel_instr[]         = {TRASH_CARD_AND_GAIN_ONE_COASTING_UP_TO_TWO_MORE};
+    int8_t smithy_instr[]          = {PLUS_CARD, PLUS_CARD, PLUS_CARD};
+    int8_t throne_room_instr[]     = {PLAY_ACTION_CARD_FROM_HAND_TWICE};
+    int8_t bandit_instr[]          = {GAIN_GOLD_TO_HAND};
+    int8_t council_room_instr[]    = {PLUS_CARD, PLUS_CARD, PLUS_CARD, PLUS_CARD, PLUS_BUY, EACH_OTHER_PLAYER_DRAWS_CARD};
 
     p_base_set = base_set;
 
@@ -89,10 +89,10 @@ struct card_stack ** base_set() {
     return base_set;
 }
 
-struct card_stack ** select_playing_cards(struct card_stack ** base_set) {
-    struct card_stack ** reduced_base_set = (struct card_stack **)malloc(SUPPLY_PILES * sizeof(struct card_stack *));
+card_stack ** select_playing_cards(card_stack ** base_set) {
+    card_stack ** reduced_base_set = (card_stack **)malloc(SUPPLY_PILES * sizeof(card_stack *));
     if (reduced_base_set == NULL) { return NULL; }
-    int action_card_indeces[] = {
+    int8_t action_card_indeces[] = {
         7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
         20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32
     }, n = N_ELEMS(action_card_indeces), i, j;
