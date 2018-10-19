@@ -29,7 +29,13 @@ int main(void) {
     /* Gather player details */
     int8_t player_count;
     int8_t player_types = 1;
-    char names[24];
+    char * names = (char *)malloc(24 * sizeof(char));
+    if (names == NULL) {
+        endwin();
+        fprintf(stderr, "Memory error\n");
+        return 1;
+    }
+
     player_select_view(p_interface, &player_count, &player_types, names);
 
     /* Create a new table */
