@@ -19,10 +19,9 @@ struct card_stack ** base_set() {
         10, 10, 10      /* Sentry, Witch, Artisan */
     }, * p_card_counts = CARD_COUNTS;
 
-
     /* Initialize new card stacks */
     int i;
-    for (p_base_set = base_set, p_card_counts = CARD_COUNTS, i = 0; i < BASE_COUNT; ++i) {
+    for (i = 0, p_base_set = base_set, p_card_counts = CARD_COUNTS; i < BASE_COUNT; ++i) {
         *(p_base_set++) = new_card_stack(*(p_card_counts++));
     }
 

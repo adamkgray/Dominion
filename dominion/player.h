@@ -4,7 +4,7 @@
 #include "cards.h"
 
 struct player {
-    char * name;
+    char name[9];
     int victory_points;
     int actions;
     int buys;

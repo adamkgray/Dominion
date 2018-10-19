@@ -2,8 +2,6 @@
 #include "headers.h"
 
 int main(void) {
-
-
     /* Initialize curses */
     initscr();
     noecho();
@@ -28,29 +26,34 @@ int main(void) {
 
     title_view(p_interface);
 
-    /* Gather plyer details */
+    /* Gather player details */
     int player_count;
     int player_types = 1;
-    char * names;
+    char names[24];
     player_select_view(p_interface, &player_count, &player_types, names);
 
     /* Create a new table */
-    //struct table * p_table = new_table(select_playing_cards(base_set()), player_count, names);
-    //if (p_table == NULL) { fprintf(stderr, "Memory error"); return 1; }
+    struct table * p_table = new_table(select_playing_cards(base_set()), player_count, names);
+    if (p_table == NULL) {
+        endwin();
+        fprintf(stderr, "Memory error\n");
+        return 1;
+    }
 
     /* Shuffle decks */
-    //for (int i = 0; i < p_table->player_count; ++i) {
-     //   randomize_cards(p_table->players[i]->deck->cards, 10);
-    //}
+    for (int i = 0; i < p_table->player_count; ++i) {
+        randomize_cards(p_table->players[i]->deck->cards, 10);
+    }
+
     /* Draw five cards */
-    //for (int i = 0; i < p_table->player_count; ++i) {
-     //   for (int j = 0; j < 5; ++j) {
-      //      draw(p_table->players[i]);
-       // }
-    //}
+    for (int i = 0; i < p_table->player_count; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            draw(p_table->players[i]);
+        }
+    }
 
     /* Begin the game */
-    //gameplay(p_table);
+    gameplay(p_table);
 
     /* Stop curses */
     endwin();

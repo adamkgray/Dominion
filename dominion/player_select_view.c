@@ -1,39 +1,51 @@
 #include "player_select_view.h"
 
-int player_select_view(struct interface * p_interface, int * player_count, int * player_types, char * names) {
-    select_player_count(p_interface, player_count, 2);             /* Get player count */
-    names = (char *)malloc((*player_count * 8) * sizeof(char));    /* Player names are 8 characters max */
-    if (names == NULL) { return 0; }                               /* Return if fail */
-    for (int i = 0; i < (*player_count * 8); ++i) { names[i] = '\0'; } /* Initialize all spaces in names to null */
-    human_or_cpu(p_interface, *player_count, player_types, 0);     /* Get human/cpu int */
-    if (*player_types & 7) {                                       /* Get names if any */
+void player_select_view(struct interface * p_interface, int * player_count, int * player_types, char * names) {
+    /* Get player count */
+    select_player_count(p_interface, player_count, 2);
+
+    /* Initialize all spaces in names to null */
+    for (int i = 0; i < (*player_count * 8); ++i) {
+        names[i] = '\0';
+    }
+
+    /* Get human/cpu int */
+    human_or_cpu(p_interface, *player_count, player_types, 0);
+
+    /* Get names if any human players */
+    if (*player_types & 7) {
         enter_names(p_interface, *player_count, *player_types, names, 0, 0);
     }
+
     clear();
-    return 1;   /* Return success */
+    return;
 }
 
 void enter_names(struct interface * p_interface, int player_count, int player_types, char * names, int option, int pos) {
-    /* TODO: fix */
     int y = (p_interface->center_y / 2) - 1;
     int x = p_interface->center_x - 17;
 
     if (option < player_count) {
-        if (player_types & (int)pow(2, option)) {
-            names += (8 * option);
-            mvprintw(y, x, "Enter name for player [%d]: %.8s", option + 1, names);
+        if (player_types & (int)pow(2, option)) { /* Player is flagged as human */
+            /* Print current name input */
+            mvprintw(y++, x, "Enter name for player [%d]: %.8s", option + 1, names + (8 * option));
+            mvprintw(y--, x, "(8 characters max)");
 
             int c = getch();
-            if (pos < 8 && isalpha(c)) {
-                names[pos++] = c;
-            } else if (pos > 0 && c == '\b') {
-                names[--pos] = '\0';
-            } else if (c == 10 || c == 13) {
-                clear();
+            if (pos < 8 && isalpha(c)) {                        /* If input is alphabetical ... */
+                (names + (8 * option))[pos++] = c;              /* update the names array at correct pos */
+            } else if (pos > 0 && (c == '\b' || c == 127)) {    /* If pos greater than 0 and input is backspace ...*/
+                mvprintw(y, x + 26 + pos, " ");                 /* clear the previous character */
+                (names + (8 * option))[--pos] = '\0';           /* Set the previous character in the names array to null */
+            } else if (c == 10 || c == 13) {                    /* If input is 'enter' ... */
+                clear();                                        /* Clear the screen and move to next option */
                 return enter_names(p_interface, player_count, player_types, names, option + 1, 0);
             }
-
+            /* Otherwise, it's bad input, return the view as it is */
             return enter_names(p_interface, player_count, player_types, names, option, pos);
+        } else {
+            /* Player is not flagged as human, move onto the next option */
+            return enter_names(p_interface, player_count, player_types, names, option + 1, pos);
         }
     }
 

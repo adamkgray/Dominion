@@ -12,6 +12,6 @@ struct table {
     struct card_stack ** supply_piles;
 };
 
-struct table * new_table(struct card_stack ** supply_piles, int player_count, char ** names);
+struct table * new_table(struct card_stack ** supply_piles, int player_count, char * names);
 
 #endif

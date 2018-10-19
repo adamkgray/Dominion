@@ -8,7 +8,7 @@
 #include "definitions.h"
 #include "interface.h"
 
-int player_select_view(struct interface * p_interface, int * player_count, int * player_types, char * names);
+void player_select_view(struct interface * p_interface, int * player_count, int * player_types, char * names);
 void select_player_count(struct interface * p_interface, int * player_count, int option);
 void human_or_cpu(struct interface * p_interface, int player_count, int * player_types, int option);
 void enter_names(struct interface * p_interface, int player_count, int player_types, char * names, int option, int pos);
