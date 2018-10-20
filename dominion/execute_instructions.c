@@ -1,14 +1,18 @@
 #include "execute_instructions.h"
 
-void execute_action_card_instructions(card * p_action_card, table * p_table) {
-    int8_t * instructions, instruction_count;
-    instructions = p_action_card->instructions;
-    instruction_count = sizeof(instructions) / sizeof(int8_t);
-
-    for (int8_t i = 0; i < instruction_count; ++i) {
-        execute_instruction(instructions[i], p_table);
+void execute_action_card_instructions(int32_t instructions, table * p_table) {
+    /* Each instruction is an integer that can be represented by 5 bits (max 6 instructions per card, i.e. 30 bits )
+     * To get the next instruction, we 'AND' the instruction integer with 31 (11111)
+     * If it's 0 stop, otherwise execute it
+     */
+    if (instructions & 31) {
+        execute_instruction(instructions & 31, p_table);
+        /* Bitshift 5 to the right to get the next instruction */
+        return execute_action_card_instructions(instructions >> 5, p_table);
     }
+    return;
 }
+
 
 void execute_instruction(int8_t instruction, table * p_table) {
     player * p_player = p_table->players[p_table->turn];
@@ -32,8 +36,8 @@ void execute_instruction(int8_t instruction, table * p_table) {
         case GAIN_SILVER_TO_DECK:
             gain_silver_to_deck(p_player, p_table);
             break;
-        case GAIN_GOLD_TO_HAND:
-            gain_gold_to_hand(p_player, p_table);
+        case GAIN_GOLD:
+            gain_gold(p_player, p_table);
         default:
             break;
     }
@@ -48,12 +52,26 @@ void each_other_player_draws_card(table * p_table) {
     }
 }
 
-void gain_gold_to_hand(player * p_player, table * p_table) {
-    pop_and_push(p_player->hand, p_table->supply_piles[GOLD]);
+int8_t gain_gold(player * p_player, table * p_table) {
+    pop_and_push(p_player->discard, p_table->supply_piles[GOLD]);
+    card ** golds = (card **)realloc(p_table->supply_piles[GOLD]->cards, p_table->supply_piles[GOLD]->card_count * sizeof(card *));
+    if (golds == NULL) {
+        return 0;
+    } else {
+        p_table->supply_piles[GOLD]->cards = golds;
+        return 1;
+    }
 }
 
-void gain_silver_to_deck(player * p_player, table * p_table) {
+int8_t gain_silver_to_deck(player * p_player, table * p_table) {
     pop_and_push(p_player->deck, p_table->supply_piles[SILVER]);
+    card ** silvers = (card **)realloc(p_table->supply_piles[SILVER]->cards, p_table->supply_piles[SILVER]->card_count * sizeof(card *));
+    if (silvers == NULL) {
+        return 0;
+    } else {
+        p_table->supply_piles[SILVER]->cards = silvers;
+        return 1;
+    }
 }
 
 /* TODO: In the case that there are 3 players, someone plays a witch,

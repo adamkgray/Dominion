@@ -2,6 +2,7 @@
 #define TABLE_H_
 
 #include <stdint.h>
+#include <stdlib.h>
 #include "definitions.h"
 #include "cards.h"
 #include "player.h"

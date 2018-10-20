@@ -7,11 +7,11 @@
 #include "table.h"
 #include "draw.h"
 
-void execute_action_card_instructions(card * action_card, table * p_table);
+void execute_action_card_instructions(int32_t instructions, table * p_table);
 void execute_instruction(int8_t instruction, table * p_table);
 void each_other_player_draws_card(table * p_table);
-void gain_gold_to_hand(player * p_player, table * p_table);
-void gain_silver_to_deck(player * p_player, table * p_table);
+int8_t gain_gold(player * p_player, table * p_table);
+int8_t gain_silver_to_deck(player * p_player, table * p_table);
 void each_other_player_gains_curse(table * p_table);
 
 #endif

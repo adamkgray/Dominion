@@ -32,7 +32,7 @@
 #define DISCARD_A_CARD_PER_EMPTY_SUPPLY_PILE 9              /* [ ] */
 #define TRASH_CARD_AND_GAIN_ONE_COASTING_UP_TO_TWO_MORE 10  /* [ ] */
 #define PLAY_ACTION_CARD_FROM_HAND_TWICE 11                 /* [ ] */
-#define GAIN_GOLD_TO_HAND 12                                /* [x] */
+#define GAIN_GOLD 12                                        /* [x] */
 #define EACH_OTHER_PLAYER_DRAWS_CARD 13                     /* [x] */
 #define TRASH_UP_TO_FOUR_CARDS 14                           /* [ ] */
 

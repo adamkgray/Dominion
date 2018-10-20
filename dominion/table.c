@@ -13,13 +13,29 @@ table * new_table(card_stack ** supply_piles, int8_t player_count, char * names)
         p_players[i] = new_player(names + (8 * i));
         if (p_players[i] == NULL) { return NULL; }
 
-        /* No need to check for enough memory because supply piles and player decks are intiailized with enough space */
         for (int8_t j = 0; j < 7; ++j) { /* 7 coppers */
             pop_and_push(p_players[i]->deck, supply_piles[COPPER]);
         }
+
         for (int8_t j = 0; j < 3; ++j) { /* 3 estates */
             pop_and_push(p_players[i]->deck, supply_piles[ESTATE]);
         }
+    }
+
+    /* Reallocate memory for fewer coppers */
+    card ** coppers = (card **)realloc(supply_piles[COPPER]->cards, supply_piles[COPPER]->card_count * sizeof(card *));
+    if (coppers == NULL) {
+        return NULL;
+    } else {
+        supply_piles[COPPER]->cards = coppers;
+    }
+
+    /* Reallocate memory for fewer estates */
+    card ** estates = (card **)realloc(supply_piles[ESTATE]->cards, supply_piles[ESTATE]->card_count * sizeof(card *));
+    if (estates == NULL) {
+        return NULL;
+    } else {
+        supply_piles[ESTATE]->cards = estates;
     }
 
     p_table->players = p_players;               /* Set players in player array */

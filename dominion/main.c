@@ -17,6 +17,12 @@ int main(void) {
 
     /* Initialize interface */
     interface * p_interface = (interface *)malloc(sizeof(interface));
+    if (p_interface == NULL) {
+        endwin();
+        fprintf(stderr, "Memory error\n");
+        return 1;
+    }
+
     p_interface->left_x   = 0;
     p_interface->right_x  = COLS - 1;
     p_interface->top_y    = 0;
@@ -24,9 +30,9 @@ int main(void) {
     p_interface->center_x = (COLS - 1) / 2;
     p_interface->center_y = (LINES - 1) / 2;
 
+    /* Show title view */
     title_view(p_interface);
 
-    /* Gather player details */
     int8_t player_count;
     int8_t player_types = 1;
     char * names = (char *)malloc(24 * sizeof(char));
@@ -36,6 +42,7 @@ int main(void) {
         return 1;
     }
 
+    /* Show player select view */
     player_select_view(p_interface, &player_count, &player_types, names);
 
     /* Create a new table */

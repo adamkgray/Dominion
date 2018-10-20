@@ -1,0 +1,71 @@
+witch_instr = 1061;
+plus card, plus card, each other player gains a curse
+00001 00001 00101
+
+cellar_instr = 2;
+plus action
+00010
+
+chapel_instr = 14;
+trash up to four cards
+01110
+
+moat_instr = 33;
+plus card, plus card
+00001 00001
+
+harbinger_instr = 34;
+plus card, plus action
+00001 00010
+
+merchant_instr = 34;
+plus card, plus action
+00001 00010
+
+vassal_instr = 132;
+plus coin, plus coin
+00100 00100
+
+village_instr = 1090;
+plus card, plus action, plus action
+00001 00010 00010
+
+workshop_instr = 6;
+gain card costin up to four
+00110
+
+bureaucrat_instr = 7;
+gain silver to deck
+00111
+
+militia_instr = 132;
+plus coin, plus coin
+00100 00100
+
+moneylender_instr = 8;
+trash copper for plus three
+01000
+
+poacher_instr = 34953;
+plus card, plus action, plus coin, discard a card per empty supply pile
+00001 00010 00100 01001
+
+remodel_instr = 10;
+trash a card and gain one costin u to two more than it
+01010
+
+smithy_instr = 1057;
+plus card, plus card, plus card
+00001 00001 00001
+
+throne_room_instr = 11;
+play action card fro hand twice
+01011
+
+bandit_instr = 12;
+gain a gold
+01100
+
+council_room_instr = 34636909;
+plus card, plus card, plus card, plus card, plus buy, each other player draws a card
+00001 00001 00001 00001 00011 01101
