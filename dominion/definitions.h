@@ -24,7 +24,7 @@
 #define PLUS_CARD   1                                       /* [x] */
 #define PLUS_ACTION 2                                       /* [x] */
 #define PLUS_BUY    3                                       /* [x] */
-#define PLUS_COIN   4                                       /* [ ] */
+#define PLUS_COIN   4                                       /* [x] */
 #define EACH_OTHER_PLAYER_GAINS_CURSE 5                     /* [x] */
 #define GAIN_CARD_COSTING_UP_TO_FOUR  6                     /* [ ] */
 #define GAIN_SILVER_TO_DECK 7                               /* [x] */
@@ -34,7 +34,7 @@
 #define PLAY_ACTION_CARD_FROM_HAND_TWICE 11                 /* [ ] */
 #define GAIN_GOLD 12                                        /* [x] */
 #define EACH_OTHER_PLAYER_DRAWS_CARD 13                     /* [x] */
-#define TRASH_UP_TO_FOUR_CARDS 14                           /* [ ] */
+#define TRASH_UP_TO_FOUR_CARDS 14                           /* [x] */
 
 /* Interface color pairs */
 #define BLUE_ON_WHITE 1

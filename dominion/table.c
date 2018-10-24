@@ -38,10 +38,11 @@ table * new_table(card_stack ** supply_piles, int8_t player_count, char * names)
         supply_piles[ESTATE]->cards = estates;
     }
 
-    p_table->players = p_players;               /* Set players in player array */
-    p_table->player_count = player_count;       /* Set player count */
-    p_table->turn = 0;                          /* Player 0 goes first */
-    p_table->supply_piles = supply_piles;       /* Set supply piles */
+    p_table->players = p_players;         /* Set players in player array */
+    p_table->player_count = player_count; /* Set player count */
+    p_table->turn = 0;                    /* Player 0 goes first */
+    p_table->play_area_value = 0;         /* Play area starts with no coin */
+    p_table->supply_piles = supply_piles; /* Set supply piles */
 
     return p_table;
 }

@@ -8,6 +8,7 @@
 #include "player.h"
 
 typedef struct {
+    int8_t play_area_value;
     int8_t turn;
     int8_t player_count;
     player ** players;

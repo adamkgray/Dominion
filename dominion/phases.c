@@ -1,6 +1,6 @@
 #include "phases.h"
 
-void cleanup_phase(table * p_table) {
+void cleanup_phase(interface * p_interface, table * p_table) {
     /* Get pointer to player whose turn it is */
     player * p_player = p_table->players[p_table->turn];
 
@@ -27,45 +27,41 @@ void cleanup_phase(table * p_table) {
     p_table->turn = (p_table->turn == p_table->player_count - 1) ? 0 : p_table->turn + 1;
 }
 
-void action_phase(table * p_table){
+void action_phase(interface * p_interface, table * p_table){
     player * p_player = p_table->players[p_table->turn];
-    if (p_player->actions == 0) { return; }    /* If player has no more actions, return */
+    if (p_player->actions == 0) {
+        return;
+    }
 
-    /* TODO: UI */
-    /* Give player option to end actions */
-
-    /* TODO: UI */
-    /* Player moves an action card to play area */
+    if(!action_phase_view(p_interface, p_table, p_player, 0, 0)) {
+        /* Player ended action phase by choice */
+        /* End phase */
+        return;
+    }
 
     /* decrement actions */
     --(p_player->actions);
 
     /* call self recursively */
-    return action_phase(p_table);
+    return action_phase(p_interface, p_table);
 }
 
-void forfeit_actions(player * p_player) {
-    p_player->actions = 0;
-    return;
-}
-
-void buy_phase(table * p_table) {
+void buy_phase(interface * p_interface, table * p_table) {
     player * p_player = p_table->players[p_table->turn];
     if (p_player->buys == 0) {
         return;
     }
 
-    int8_t play_area_value = 0;
-    buy_phase_view(p_table, p_player, &play_area_value);
+    /* Show buy phase view */
+    if (!buy_phase_view(p_interface, p_table, p_player, 0, 0)) {
+        /* Player ended buy phase by choice */
+        /* End phase */
+        return;
+    }
 
     /* decrement buys */
     --(p_player->buys);
 
     /* call self recursively */
-    return buy_phase(p_table);
-}
-
-void forfeit_buys(player * p_player) {
-    p_player->buys = 0;
-    return;
+    return buy_phase(p_interface, p_table);
 }

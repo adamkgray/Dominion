@@ -2,6 +2,7 @@
 #define INTERFACE_H_
 
 #include <stdint.h>
+
 typedef struct {
     int16_t left_x;
     int16_t right_x;

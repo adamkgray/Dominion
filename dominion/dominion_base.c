@@ -33,6 +33,11 @@ card_stack ** base_set() {
     /* Reset base pointer */
     p_base_set = base_set;
 
+    /* Each instruction is an integer that can be represented by 5 bits (max 6 instructions per card, i.e. 30 bits ).
+     * The 'instructions' of a card are the result of placing the binary forms of each instruction next to each other
+     * and taking the integer they form. See "instruction_mapping.txt"
+     */
+
     /*         #cards  type                 name         cost value instructions        place in base_set               */
     if (!add_cards(30, CURSE,               "Curse",        0, -1,  0,               *(p_base_set++))) { return NULL; }
     if (!add_cards(24, VICTORY,             "Estate",       2,  1,  0,               *(p_base_set++))) { return NULL; }

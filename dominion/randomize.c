@@ -8,8 +8,8 @@ void swap_cards(card ** a, card ** b) {
 }
 
 void randomize_cards(card * arr[], int8_t n) {
-    static int8_t seed_offset = 1;
-    int32_t j;
+    static uint8_t seed_offset = 1;
+    uint32_t j;
     srand(time(NULL));
     for (int8_t i = n - 1; i > 0; i--) {
         j = (rand() + (seed_offset++)) % (i + 1);
@@ -25,10 +25,11 @@ void swap_indeces(int8_t * a, int8_t * b) {
 }
 
 void randomize_indeces(int8_t arr[], int8_t n) {
-    int32_t j;
+    static uint8_t seed_offset = 1;
+    uint32_t j;
     srand(time(NULL));
     for (int8_t i = n - 1; i > 0; i--) {
-        j = rand() % (i + 1);
+        j = (rand() + (seed_offset++)) % (i + 1);
         swap_indeces(arr + i, arr + j);
     }
 }

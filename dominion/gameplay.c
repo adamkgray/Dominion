@@ -2,14 +2,13 @@
 
 table * gameplay(interface * p_interface, table * p_table) {
     /* Action phase */
-    /* Turn off action phase for dev */
-    //action_phase(p_table);
+    action_phase(p_interface, p_table);
 
     /* Buy phase */
-    buy_phase(p_table);
+    buy_phase(p_interface, p_table);
 
     /* Cleanup phase */
-    cleanup_phase(p_table);
+    cleanup_phase(p_interface, p_table);
 
     /* Next turn or game over */
     return (end_conditions(p_table)) ? NULL : gameplay(p_interface, p_table);
