@@ -13,7 +13,6 @@ void execute_action_card_instructions(interface * p_interface, int32_t instructi
     return;
 }
 
-
 void execute_instruction(interface * p_interface, int8_t instruction, table * p_table) {
     /* Execute a discrete instruction from an action card.
      * Instructions may perform logic and/or bring up a new view to get player input
@@ -50,10 +49,67 @@ void execute_instruction(interface * p_interface, int8_t instruction, table * p_
             clear(); /* Clear screen for new view */
             gain_card_costing_up_to_four(p_interface, p_table, p_player, 0);
             break;
+        case TRASH_COPPER_FOR_PLUS_THREE:
+            clear();
+            trash_copper_for_plus_three(p_interface, p_table, p_player, 0);
+            break;
         default:
             break;
     }
     return;
+}
+
+void trash_card_and_gain_one_costing_up_to_two_more(interface * p_interface, table * p_table, player * p_player, int8_t opt_x, int8_t opt_y) {
+}
+
+void trash_copper_for_plus_three(interface * p_interface, table * p_table, player * p_player, int8_t opt_y) {
+    /* Show status */
+    mvprintw(p_interface->bottom_y, 0, "Trash a copper or press 'q' to end");
+
+    /* Show hand */
+    int16_t y = (p_interface->center_y / 3);
+    int16_t x = (p_interface->center_x / 2) - 8;
+    mvprintw(y++, x, "HAND");
+    for (int8_t i = 0; i < p_player->hand->card_count; ++i) {
+        card * p_card = p_player->hand->cards[i];
+        if (i == opt_y) {
+            attron(COLOR_PAIR(BLACK_ON_WHITE));
+        }
+        mvprintw(y++, x, "%-10s", p_card->name);
+        attroff(COLOR_PAIR(BLACK_ON_WHITE));
+    }
+
+    int16_t c = getch();
+    switch (c) {
+        case 10:
+        case 13:
+            if (p_player->hand->cards[opt_y]->type & TREASURE && p_player->hand->cards[opt_y]->value == 1) {
+                /* Pop card from hand */
+                card * p_card = pop_card_at(opt_y, p_player->hand);
+                /* Add 3 to play area value */
+                p_table->play_area_value += 3;
+                /* Trashing cards frees up memory too */
+                p_card = NULL;
+                free(p_card);
+                clear();
+                return;
+            }
+            break;
+        case 'q':
+            clear();
+            return;
+        case KEY_DOWN:
+            if (opt_y < p_player->hand->card_count - 1) {
+                return trash_copper_for_plus_three(p_interface, p_table, p_player, opt_y + 1);
+            }
+        case KEY_UP:
+            if (opt_y > 0) {
+                return trash_copper_for_plus_three(p_interface, p_table, p_player, opt_y - 1);
+            }
+        default:
+            break;
+    }
+    return trash_copper_for_plus_three(p_interface, p_table, p_player, opt_y);
 }
 
 void gain_card_costing_up_to_four(interface * p_interface, table * p_table, player * p_player, int8_t opt_y) {

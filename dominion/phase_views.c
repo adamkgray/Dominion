@@ -20,7 +20,7 @@ int8_t buy_phase_view(interface * p_interface, table * p_table, player * p_playe
             /* Player wants to move coin to play area */
             if (opt_x == 0 && p_player->hand->cards[opt_y]->type & TREASURE) {
                 /* Erase where the word was */
-                mvprintw((p_interface->center_y / 3) + p_player->hand->card_count, (p_interface->center_x / 2) - 8, "          ");
+                mvprintw((p_interface->center_y / 3) + p_player->hand->card_count, (p_interface->center_x / 2) - 8, "           ");
                 /* Pop card from hand */
                 card * p_card = pop_card_at(opt_y, p_player->hand);
                 /* Push card into play area */

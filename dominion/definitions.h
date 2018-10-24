@@ -26,9 +26,9 @@
 #define PLUS_BUY    3                                       /* [x] */
 #define PLUS_COIN   4                                       /* [x] */
 #define EACH_OTHER_PLAYER_GAINS_CURSE 5                     /* [x] */
-#define GAIN_CARD_COSTING_UP_TO_FOUR  6                     /* [ ] */
+#define GAIN_CARD_COSTING_UP_TO_FOUR  6                     /* [x] */
 #define GAIN_SILVER_TO_DECK 7                               /* [x] */
-#define TRASH_COPPER_FOR_PLUS_THREE 8                       /* [ ] */
+#define TRASH_COPPER_FOR_PLUS_THREE 8                       /* [x] */
 #define DISCARD_A_CARD_PER_EMPTY_SUPPLY_PILE 9              /* [ ] */
 #define TRASH_CARD_AND_GAIN_ONE_COASTING_UP_TO_TWO_MORE 10  /* [ ] */
 #define PLAY_ACTION_CARD_FROM_HAND_TWICE 11                 /* [ ] */
