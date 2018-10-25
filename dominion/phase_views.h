@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <ncurses.h>
+#include "render.h"
 #include "definitions.h"
 #include "execute_instructions.h"
 #include "interface.h"

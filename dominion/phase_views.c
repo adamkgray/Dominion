@@ -7,7 +7,7 @@ void buy_phase_view(interface * p_interface, table * p_table, player * p_player)
     int16_t c;
 
     /* Initial render */
-    draw_table(p_interface, p_table, p_player, opt_x, opt_y, "BUY");
+    render_table(p_interface, p_table, p_player, "BUY");
 
     /* Read input */
     while (m) {
@@ -22,10 +22,8 @@ void buy_phase_view(interface * p_interface, table * p_table, player * p_player)
         if (c == 'q') {
             p_player->buys = 0;
             /* erase status */
-            move(p_interface->bottom_y - 1, 0);
-            clrtoeol();
-            move(p_interface->bottom_y, 0);
-            clrtoeol();
+            move(p_interface->bottom_y - 1, 0); clrtoeol();
+            move(p_interface->bottom_y, 0); clrtoeol();
             return;
         }
 
@@ -43,7 +41,9 @@ void buy_phase_view(interface * p_interface, table * p_table, player * p_player)
             opt_x = 0;
             opt_y = 0;
             /* re-render */
-            draw_table(p_interface, p_table, p_player, opt_x, opt_y, "BUY");
+            render_play_area(p_interface, p_player);
+            render_hand(p_interface, p_player, opt_y);
+            render_status(p_interface, p_table, p_player, "BUY");
         }
 
         /* Player wants to buy */
@@ -52,7 +52,6 @@ void buy_phase_view(interface * p_interface, table * p_table, player * p_player)
             pop_and_push(p_player->discard, p_table->supply_piles[opt_y]);
             /* Set play area value to zero */
             p_table->play_area_value = 0;
-            /* Clear the screen */
             /* break loop */
             m = 0;
         }
@@ -60,10 +59,8 @@ void buy_phase_view(interface * p_interface, table * p_table, player * p_player)
 
 
     /* erase status */
-    move(p_interface->bottom_y - 1, 0);
-    clrtoeol();
-    move(p_interface->bottom_y, 0);
-    clrtoeol();
+    move(p_interface->bottom_y - 1, 0); clrtoeol();
+    move(p_interface->bottom_y, 0); clrtoeol();
 
     /* Next buy */
     p_player->buys -= 1;
@@ -82,26 +79,36 @@ void select_treasure(interface * p_interface, table * p_table, player * p_player
             case KEY_UP:
                 if (*opt_y > 0) {
                     --(*opt_y);
-                    draw_table(p_interface, p_table, p_player, *opt_x, *opt_y, "BUY");
+                    if (opt_x) {
+                        render_supply_piles(p_interface, p_table, *opt_y);
+                    } else {
+                        render_hand(p_interface, p_player, *opt_y);
+                    }
                 }
                 break;
             case KEY_DOWN:
                 if ((*opt_x && *opt_y < (SUPPLY_PILES - 1)) || (!(*opt_x) && *opt_y < p_player->hand->card_count - 1)) {
                     ++(*opt_y);
-                    draw_table(p_interface, p_table, p_player, *opt_x, *opt_y, "BUY");
+                    if (opt_x) {
+                        render_supply_piles(p_interface, p_table, *opt_y);
+                    } else {
+                        render_hand(p_interface, p_player, *opt_y);
+                    }
                 }
                 break;
             case KEY_LEFT:
                 if (*opt_x == 1 && p_player->hand->card_count > 0) {
                     *opt_x = 0;
                     *opt_y = (*opt_y > p_player->hand->card_count - 1) ? p_player->hand->card_count - 1 : *opt_y;
-                    draw_table(p_interface, p_table, p_player, *opt_x, *opt_y, "BUY");
+                    render_supply_piles(p_interface, p_table, -1);
+                    render_hand(p_interface, p_player, *opt_y);
                 }
                 break;
             case KEY_RIGHT:
                 if (*opt_x == 0) {
                     *opt_x = 1;
-                    draw_table(p_interface, p_table, p_player, *opt_x, *opt_y, "BUY");
+                    render_supply_piles(p_interface, p_table, *opt_y);
+                    render_hand(p_interface, p_player, -1);
                 }
                 break;
             default:
@@ -116,7 +123,7 @@ void action_phase_view(interface * p_interface, table * p_table, player * p_play
     int8_t opt_y = 0;   /* index of which card is selected */
 
     /* Initial render */
-    draw_table(p_interface, p_table, p_player, 0, 0, "ACTION");
+    render_table(p_interface, p_table, p_player, "ACTION");
 
     while (m) {
         select_action_card(p_interface, p_table, p_player, &opt_y, &c);
@@ -126,10 +133,8 @@ void action_phase_view(interface * p_interface, table * p_table, player * p_play
             m = 0;
             p_player->actions = 0;
             /* erase status */
-            move(p_interface->bottom_y - 1, 0);
-            clrtoeol();
-            move(p_interface->bottom_y, 0);
-            clrtoeol();
+            move(p_interface->bottom_y - 1, 0); clrtoeol();
+            move(p_interface->bottom_y, 0); clrtoeol();
             return;
         }
 
@@ -150,10 +155,8 @@ void action_phase_view(interface * p_interface, table * p_table, player * p_play
 
 
     /* erase status */
-    move(p_interface->bottom_y - 1, 0);
-    clrtoeol();
-    move(p_interface->bottom_y, 0);
-    clrtoeol();
+    move(p_interface->bottom_y - 1, 0); clrtoeol();
+    move(p_interface->bottom_y, 0); clrtoeol();
 
     /* Next action */
     p_player->actions -= 1;
@@ -172,13 +175,13 @@ void select_action_card(interface * p_interface, table * p_table, player * p_pla
             case KEY_UP:
                 if (*opt_y - 1 >= 0) {
                     --(*opt_y);
-                    draw_table(p_interface, p_table, p_player, 0, *opt_y, "ACTION");
+                    render_hand(p_interface, p_player, *opt_y);
                 }
                 break;
             case KEY_DOWN:
                 if (*opt_y < p_player->hand->card_count - 1) {
                     ++(*opt_y);
-                    draw_table(p_interface, p_table, p_player, 0, *opt_y, "ACTION");
+                    render_hand(p_interface, p_player, *opt_y);
                 }
                 break;
             default:
@@ -186,56 +189,4 @@ void select_action_card(interface * p_interface, table * p_table, player * p_pla
         }
     }
     return;
-}
-
-void draw_table(interface * p_interface, table * p_table, player * p_player, int8_t opt_x, int8_t opt_y, char * phase) {
-    int8_t x, y;
-    card_stack * p_card_stack;
-    card * p_card;
-
-    /* Show status */
-    mvprintw(p_interface->bottom_y - 1, 0, "Press 'q' to end current phase");
-    mvprintw(p_interface->bottom_y, 0, "player: %s | phase: %s | actions: %d | buys: %d | $%d", p_player->name, phase, p_player->actions, p_player->buys, p_table->play_area_value);
-
-    /* Show hand */
-    y = (p_interface->center_y / 3);
-    x = (p_interface->center_x / 2) - 8;
-    mvprintw(y++, x, "HAND");
-    for (int8_t i = 0; i < p_player->hand->card_count; ++i) {
-        p_card = p_player->hand->cards[i];
-        if (opt_x == 0 && i == opt_y) {
-            attron(COLOR_PAIR(BLACK_ON_WHITE));
-        }
-        mvprintw(y++, x, "%-10s", p_card->name);
-        attroff(COLOR_PAIR(BLACK_ON_WHITE));
-    }
-
-    /* Show play area */
-    y = (p_interface->center_y / 3);
-    x = (p_interface->center_x - 8);
-    mvprintw(y++, x, "PLAY AREA");
-    for (int8_t i = 0; i < p_player->play_area->card_count; ++i) {
-        p_card = p_player->play_area->cards[i];
-        mvprintw(y++, x, "%-10s", p_card->name);
-    }
-
-    /* Show supply piles */
-    y = (p_interface->center_y / 3);
-    x = ((p_interface->center_x / 2) + p_interface->center_x) - 8;
-    mvprintw(y++, x, "SUPPLY PILES");
-    for (int8_t i = 0; i < SUPPLY_PILES; ++i) {
-        p_card_stack = p_table->supply_piles[i];
-        if (opt_x == 1 && opt_y == i) {
-            attron(COLOR_PAIR(BLACK_ON_WHITE));
-        }
-        mvprintw(
-            y++, x,
-            "[%c%c] $%d %-10s",
-            (p_card_stack->card_count > 9) ? ('0' + (p_card_stack->card_count / 10)) : '0',
-            (p_card_stack->card_count > 9) ? ('0' + (p_card_stack->card_count % 10)) : ('0' + p_card_stack->card_count),
-            (p_card_stack->card_count > 0) ? p_card_stack->cards[0]->cost : 0,
-            (p_card_stack->card_count > 0) ? p_card_stack->cards[0]->name : "-"
-        );
-        attroff(COLOR_PAIR(BLACK_ON_WHITE));
-    }
 }
