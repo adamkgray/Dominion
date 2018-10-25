@@ -29,39 +29,16 @@ void cleanup_phase(interface * p_interface, table * p_table) {
 
 void action_phase(interface * p_interface, table * p_table){
     player * p_player = p_table->players[p_table->turn];
-    if (p_player->actions == 0) {
-        return;
+    while (p_player->actions > 0) {
+        action_phase_view(p_interface, p_table, p_player);
     }
-
-    if(!action_phase_view(p_interface, p_table, p_player, 0, 0)) {
-        /* Player ended action phase by choice */
-        /* End phase */
-        return;
-    }
-
-    /* decrement actions */
-    --(p_player->actions);
-
-    /* call self recursively */
-    return action_phase(p_interface, p_table);
+    return;
 }
 
 void buy_phase(interface * p_interface, table * p_table) {
     player * p_player = p_table->players[p_table->turn];
-    if (p_player->buys == 0) {
-        return;
+    while (p_player->buys > 0) {
+        buy_phase_view(p_interface, p_table, p_player);
     }
-
-    /* Show buy phase view */
-    if (!buy_phase_view(p_interface, p_table, p_player, 0, 0)) {
-        /* Player ended buy phase by choice */
-        /* End phase */
-        return;
-    }
-
-    /* decrement buys */
-    --(p_player->buys);
-
-    /* call self recursively */
-    return buy_phase(p_interface, p_table);
+    return;
 }

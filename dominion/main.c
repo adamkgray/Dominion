@@ -34,7 +34,6 @@ int main(void) {
     title_view(p_interface);
 
     int8_t player_count;
-    int8_t player_types = 1;
     char * names = (char *)malloc(24 * sizeof(char));
     if (names == NULL) {
         endwin();
@@ -43,7 +42,7 @@ int main(void) {
     }
 
     /* Show player select view */
-    player_select_view(p_interface, &player_count, &player_types, names);
+    player_select_view(p_interface, &player_count, names);
 
     /* Create a new table */
     table * p_table = new_table(select_playing_cards(base_set()), player_count, names);

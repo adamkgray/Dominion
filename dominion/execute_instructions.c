@@ -43,15 +43,15 @@ void execute_instruction(interface * p_interface, int8_t instruction, table * p_
             gain_gold(p_player, p_table);
         case TRASH_UP_TO_FOUR_CARDS:
             clear(); /* Clear the screen for new view */
-            trash_up_to_four_cards(p_interface, p_player, 0, 4);
+            trash_up_to_four_cards(p_interface, p_player);
             break;
         case GAIN_CARD_COSTING_UP_TO_FOUR:
             clear(); /* Clear screen for new view */
-            gain_card_costing_up_to_four(p_interface, p_table, p_player, 0);
+            gain_card_costing_up_to_four(p_interface, p_table, p_player);
             break;
         case TRASH_COPPER_FOR_PLUS_THREE:
             clear();
-            trash_copper_for_plus_three(p_interface, p_table, p_player, 0);
+            trash_copper_for_plus_three(p_interface, p_table, p_player);
             break;
         default:
             break;
@@ -59,167 +59,153 @@ void execute_instruction(interface * p_interface, int8_t instruction, table * p_
     return;
 }
 
-void trash_card_and_gain_one_costing_up_to_two_more(interface * p_interface, table * p_table, player * p_player, int8_t opt_x, int8_t opt_y) {
+
+void select_from_hand(interface * p_interface, player * p_player, int8_t * opt_y, int16_t * c) {
+    while ((*c = getch()) != 10 && *c != 13) {
+        switch (*c) {
+            case KEY_DOWN:
+                if (*opt_y < p_player->hand->card_count - 1) {
+                    ++(*opt_y);
+                    render_hand(p_interface, p_player, *opt_y);
+                }
+            case KEY_UP:
+                if (*opt_y > 0) {
+                    --(*opt_y);
+                    render_hand(p_interface, p_player, *opt_y);
+                }
+            case 'q':
+                return;
+            default:
+                break;
+        }
+    }
+    return;
 }
 
-void trash_copper_for_plus_three(interface * p_interface, table * p_table, player * p_player, int8_t opt_y) {
+void select_from_supply_piles(interface * p_interface, table * p_table, int8_t * opt_y, int16_t * c) {
+    while ((*c = getch()) != 10 && *c != 13) {
+        switch (*c) {
+            case KEY_DOWN:
+                if (*opt_y < SUPPLY_PILES - 1) {
+                    ++(*opt_y);
+                    render_supply_piles(p_interface, p_table, *opt_y);
+                }
+                break;
+            case KEY_UP:
+                if (*opt_y > 0) {
+                    --(*opt_y);
+                    render_supply_piles(p_interface, p_table, *opt_y);
+                }
+                break;
+            case 'q':
+                return;
+            default:
+                break;
+        }
+    }
+    return;
+}
+
+void trash_copper_for_plus_three(interface * p_interface, table * p_table, player * p_player) {
+    int8_t opt_y = 0;
+    int16_t c;
+    int8_t m = 1;
+
     /* Show status */
+    move(p_interface->bottom_y - 1, 0); clrtoeol();
+    move(p_interface->bottom_y , 0); clrtoeol();
     mvprintw(p_interface->bottom_y, 0, "Trash a copper or press 'q' to end");
 
-    /* Show hand */
-    int16_t y = (p_interface->center_y / 3);
-    int16_t x = (p_interface->center_x / 2) - 8;
-    mvprintw(y++, x, "HAND");
-    for (int8_t i = 0; i < p_player->hand->card_count; ++i) {
-        card * p_card = p_player->hand->cards[i];
-        if (i == opt_y) {
-            attron(COLOR_PAIR(BLACK_ON_WHITE));
-        }
-        mvprintw(y++, x, "%-10s", p_card->name);
-        attroff(COLOR_PAIR(BLACK_ON_WHITE));
-    }
+    render_hand(p_interface, p_player, opt_y);
 
-    int16_t c = getch();
-    switch (c) {
-        case 10:
-        case 13:
-            if (p_player->hand->cards[opt_y]->type & TREASURE && p_player->hand->cards[opt_y]->value == 1) {
-                /* Pop card from hand */
-                card * p_card = pop_card_at(opt_y, p_player->hand);
-                /* Add 3 to play area value */
-                p_table->play_area_value += 3;
-                /* Trashing cards frees up memory too */
-                p_card = NULL;
-                free(p_card);
-                clear();
-                return;
-            }
-            break;
-        case 'q':
-            clear();
+    while (m) {
+        select_from_hand(p_interface, p_player, &opt_y, &c);
+
+        if (c == 'q') {
             return;
-        case KEY_DOWN:
-            if (opt_y < p_player->hand->card_count - 1) {
-                return trash_copper_for_plus_three(p_interface, p_table, p_player, opt_y + 1);
-            }
-        case KEY_UP:
-            if (opt_y > 0) {
-                return trash_copper_for_plus_three(p_interface, p_table, p_player, opt_y - 1);
-            }
-        default:
-            break;
-    }
-    return trash_copper_for_plus_three(p_interface, p_table, p_player, opt_y);
-}
-
-void gain_card_costing_up_to_four(interface * p_interface, table * p_table, player * p_player, int8_t opt_y) {
-    /* Show status */
-    mvprintw(p_interface->bottom_y, 0, "Gain a card costing up to $4");
-
-    /* Show supply piles */
-    int8_t y = (p_interface->center_y / 3);
-    int8_t x = ((p_interface->center_x / 2) + p_interface->center_x) - 8;
-    mvprintw(y++, x, "SUPPLY PILES");
-    for (int8_t i = 0; i < SUPPLY_PILES; ++i) {
-        card_stack * p_card_stack = p_table->supply_piles[i];
-        if (opt_y == i) {
-            attron(COLOR_PAIR(BLACK_ON_WHITE));
         }
-        mvprintw(
-            y++, x,
-            "[%c%c] $%d %-10s",
-            (p_card_stack->card_count > 9) ? ('0' + (p_card_stack->card_count / 10)) : '0',
-            (p_card_stack->card_count > 9) ? ('0' + (p_card_stack->card_count % 10)) : ('0' + p_card_stack->card_count),
-            (p_card_stack->card_count > 0) ? p_card_stack->cards[0]->cost : 0,
-            (p_card_stack->card_count > 0) ? p_card_stack->cards[0]->name : "-"
-        );
-        attroff(COLOR_PAIR(BLACK_ON_WHITE));
-    }
 
-    int16_t c = getch();
-    switch (c) {
-        case 10:
-        case 13:
-            if (p_table->supply_piles[opt_y]->card_count > 0 && p_table->supply_piles[opt_y]->cards[0]->cost <= 4) {
-                pop_and_push(p_player->discard, p_table->supply_piles[opt_y]);
-                clear();
-                return;
-            }
-            break;
-        case KEY_DOWN:
-            if (opt_y < SUPPLY_PILES - 1) {
-                return gain_card_costing_up_to_four(p_interface, p_table, p_player, opt_y + 1);
-            }
-            break;
-        case KEY_UP:
-            if (opt_y > 0) {
-                return gain_card_costing_up_to_four(p_interface, p_table, p_player, opt_y - 1);
-            }
-            break;
-        case 'q':
-            return;
-        default:
-            break;
-    }
-    return gain_card_costing_up_to_four(p_interface, p_table, p_player, opt_y);
-}
-
-void trash_up_to_four_cards(interface * p_interface, player * p_player, int8_t opt_y, int8_t trashes) {
-    /* Base case */
-    if (trashes == 0) {
-        clear();
-        return;
-    }
-
-    /* Prevent player from scanning too far down the list */
-    if (opt_y >= p_player->hand->card_count) {
-        return trash_up_to_four_cards(p_interface, p_player, opt_y - 1, trashes);
-    }
-
-    /* Show status */
-    mvprintw(p_interface->bottom_y - 1, 0, "Press 'q' to end trashes");
-    mvprintw(p_interface->bottom_y , 0, "Trashes remaining: %d", trashes);
-
-    /* Show hand */
-    int16_t y = (p_interface->center_y / 3);
-    int16_t x = (p_interface->center_x / 2) - 8;
-    mvprintw(y++, x, "HAND");
-    for (int8_t i = 0; i < p_player->hand->card_count; ++i) {
-        card * p_card = p_player->hand->cards[i];
-        if (i == opt_y) {
-            attron(COLOR_PAIR(BLACK_ON_WHITE));
-        }
-        mvprintw(y++, x, "%-10s", p_card->name);
-        attroff(COLOR_PAIR(BLACK_ON_WHITE));
-    }
-
-    int16_t c = getch();
-    switch (c) {
-        case 10:
-        case 13:
-            /* Erase where the word was */
-            mvprintw((p_interface->center_y / 3) + p_player->hand->card_count, (p_interface->center_x / 2) - 8, "          ");
+        if (p_player->hand->cards[opt_y]->type & TREASURE && p_player->hand->cards[opt_y]->value == 1) {
             /* Pop card from hand */
             card * p_card = pop_card_at(opt_y, p_player->hand);
+
+            /* Add 3 to play area value */
+            p_table->play_area_value += 3;
+
             /* Trashing cards frees up memory too */
             p_card = NULL;
             free(p_card);
-            return trash_up_to_four_cards(p_interface, p_player, opt_y, trashes - 1);
-        case 'q':
+
+            m = 0;
+        }
+    }
+    return;
+}
+
+void gain_card_costing_up_to_four(interface * p_interface, table * p_table, player * p_player) {
+    int8_t opt_y = 0;
+    int8_t m = 1;
+    int16_t c;
+
+    /* Show status */
+    move(p_interface->bottom_y - 1, 0); clrtoeol();
+    move(p_interface->bottom_y , 0); clrtoeol();
+    mvprintw(p_interface->bottom_y, 0, "Gain a card costing up to $4");
+
+    render_hand(p_interface, p_player, -1);
+    render_supply_piles(p_interface, p_table, opt_y);
+
+    while (m) {
+        select_from_supply_piles(p_interface, p_table, &opt_y, &c);
+
+        if (c == 'q') {
+            return;
+        }
+
+        if (p_table->supply_piles[opt_y]->card_count > 0 && p_table->supply_piles[opt_y]->cards[0]->cost <= 4) {
+            pop_and_push(p_player->discard, p_table->supply_piles[opt_y]);
             clear();
             return;
-        case KEY_DOWN:
-            if (opt_y < p_player->hand->card_count - 1) {
-                return trash_up_to_four_cards(p_interface, p_player, opt_y + 1, trashes);
-            }
-        case KEY_UP:
-            if (opt_y > 0) {
-                return trash_up_to_four_cards(p_interface, p_player, opt_y - 1, trashes);
-            }
-        default:
-            break;
+        }
     }
-    return trash_up_to_four_cards(p_interface, p_player, opt_y, trashes);
+    return;
+}
+
+void trash_up_to_four_cards(interface * p_interface, player * p_player) {
+    int8_t m = 4;
+    int16_t c;
+    int8_t opt_y = 0;
+
+    /* Show status */
+    move(p_interface->bottom_y - 1, 0); clrtoeol();
+    move(p_interface->bottom_y , 0); clrtoeol();
+    mvprintw(p_interface->bottom_y - 1, 0, "Press 'q' to end trashes");
+
+    render_hand(p_interface, p_player, opt_y);
+
+    while (m) {
+        mvprintw(p_interface->bottom_y , 0, "Trashes remaining: %d", m);
+
+        select_from_hand(p_interface, p_player, &opt_y, &c);
+
+        if (c == 'q') {
+            return;
+        }
+
+        /* Erase where the word was */
+        mvprintw((p_interface->center_y / 3) + p_player->hand->card_count, (p_interface->center_x / 2) - 8, "          ");
+
+        /* Pop card from hand */
+        card * p_card = pop_card_at(opt_y, p_player->hand);
+
+        /* Trashing cards frees up memory too */
+        p_card = NULL;
+        free(p_card);
+
+        /* Decrement trashes */
+        --m;
+    }
+    return;
 }
 
 void each_other_player_draws_card(table * p_table) {
@@ -230,25 +216,19 @@ void each_other_player_draws_card(table * p_table) {
     }
 }
 
-int8_t gain_gold(player * p_player, table * p_table) {
+void gain_gold(player * p_player, table * p_table) {
     pop_and_push(p_player->discard, p_table->supply_piles[GOLD]);
     card ** golds = (card **)realloc(p_table->supply_piles[GOLD]->cards, p_table->supply_piles[GOLD]->card_count * sizeof(card *));
-    if (golds == NULL) {
-        return 0;
-    } else {
+    if (golds != NULL) {
         p_table->supply_piles[GOLD]->cards = golds;
-        return 1;
     }
 }
 
-int8_t gain_silver_to_deck(player * p_player, table * p_table) {
+void gain_silver_to_deck(player * p_player, table * p_table) {
     pop_and_push(p_player->deck, p_table->supply_piles[SILVER]);
     card ** silvers = (card **)realloc(p_table->supply_piles[SILVER]->cards, p_table->supply_piles[SILVER]->card_count * sizeof(card *));
-    if (silvers == NULL) {
-        return 0;
-    } else {
+    if (silvers != NULL) {
         p_table->supply_piles[SILVER]->cards = silvers;
-        return 1;
     }
 }
 
