@@ -82,6 +82,7 @@ card_stack ** select_playing_cards(card_stack ** base_set) {
         return NULL;
     }
 
+    /* The indeces of all the actions cards from the base set */
     int8_t i, j, n = 26;
     int8_t action_card_indeces[] = {
         7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 

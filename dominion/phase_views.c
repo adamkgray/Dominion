@@ -40,9 +40,11 @@ void buy_phase_view(interface * p_interface, table * p_table, player * p_player)
             /* reset opts */
             opt_x = 0;
             opt_y = 0;
-            /* re-render */
+            /* Render play area */
             render_play_area(p_interface, p_player);
+            /* Render hand with first card selected */
             render_hand(p_interface, p_player, opt_y);
+            /* Render status */
             render_status(p_interface, p_table, p_player, "BUY");
         }
 
@@ -80,8 +82,10 @@ void select_treasure(interface * p_interface, table * p_table, player * p_player
                 if (*opt_y > 0) {
                     --(*opt_y);
                     if (opt_x) {
+                        /* If on supply piles, re-render supply piles with correct selection */
                         render_supply_piles(p_interface, p_table, *opt_y);
                     } else {
+                        /* If on hand, re-render hand with correct selection */
                         render_hand(p_interface, p_player, *opt_y);
                     }
                 }
@@ -90,24 +94,33 @@ void select_treasure(interface * p_interface, table * p_table, player * p_player
                 if ((*opt_x && *opt_y < (SUPPLY_PILES - 1)) || (!(*opt_x) && *opt_y < p_player->hand->card_count - 1)) {
                     ++(*opt_y);
                     if (opt_x) {
+                        /* If on supply piles, re-render supply piles with correct selection */
                         render_supply_piles(p_interface, p_table, *opt_y);
                     } else {
+                        /* If on hand, re-render hand with correct selection */
                         render_hand(p_interface, p_player, *opt_y);
                     }
                 }
                 break;
             case KEY_LEFT:
                 if (*opt_x == 1 && p_player->hand->card_count > 0) {
+                    /* Switch to hand */
                     *opt_x = 0;
+                    /* opt_y can be max # of cards in hand minus 1 */
                     *opt_y = (*opt_y > p_player->hand->card_count - 1) ? p_player->hand->card_count - 1 : *opt_y;
+                    /* Render supply piles with no highlight */
                     render_supply_piles(p_interface, p_table, -1);
+                    /* Render hand with corect seelction */
                     render_hand(p_interface, p_player, *opt_y);
                 }
                 break;
             case KEY_RIGHT:
                 if (*opt_x == 0) {
+                    /* Switch to supply piles */
                     *opt_x = 1;
+                    /* Render supply piles with some card selected */
                     render_supply_piles(p_interface, p_table, *opt_y);
+                    /* render hand with no card selected */
                     render_hand(p_interface, p_player, -1);
                 }
                 break;

@@ -60,6 +60,7 @@ void execute_instruction(interface * p_interface, int8_t instruction, table * p_
 }
 
 
+/* Reads from stdin to select a card from the hand. Re-renders just the hand */
 void select_from_hand(interface * p_interface, player * p_player, int8_t * opt_y, int16_t * c) {
     while ((*c = getch()) != 10 && *c != 13) {
         switch (*c) {
@@ -82,6 +83,7 @@ void select_from_hand(interface * p_interface, player * p_player, int8_t * opt_y
     return;
 }
 
+/* Reads from stdin to select a card from the supply piles. Re-renders just the supply piles */
 void select_from_supply_piles(interface * p_interface, table * p_table, int8_t * opt_y, int16_t * c) {
     while ((*c = getch()) != 10 && *c != 13) {
         switch (*c) {
