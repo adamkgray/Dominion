@@ -81,7 +81,7 @@ void select_treasure(interface * p_interface, table * p_table, player * p_player
             case KEY_UP:
                 if (*opt_y > 0) {
                     --(*opt_y);
-                    if (opt_x) {
+                    if (*opt_x) {
                         /* If on supply piles, re-render supply piles with correct selection */
                         render_supply_piles(p_interface, p_table, *opt_y);
                     } else {
