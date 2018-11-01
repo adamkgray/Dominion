@@ -146,7 +146,6 @@ void trash_copper_for_plus_three(interface * p_interface, table * p_table, playe
 
 void gain_card_costing_up_to_four(interface * p_interface, table * p_table, player * p_player) {
     int8_t opt_y = 0;
-    int8_t m = 1;
     int16_t c;
 
     /* Show status */
@@ -157,7 +156,7 @@ void gain_card_costing_up_to_four(interface * p_interface, table * p_table, play
     render_hand(p_interface, p_player, -1);
     render_supply_piles(p_interface, p_table, opt_y);
 
-    while (m) {
+    while (1) {
         select_from_supply_piles(p_interface, p_table, &opt_y, &c);
 
         if (c == 'q') {

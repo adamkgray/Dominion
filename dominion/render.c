@@ -1,5 +1,21 @@
 #include "render.h"
 
+void render_title(interface * p_interface) {
+    int16_t y = (p_interface->center_y / 2) - 1;
+    int16_t x = p_interface->center_x - 6;
+    mvprintw(y++, x, "*----------*");
+    mvprintw(y++, x, "| DOMINION |");
+    mvprintw(y++, x, "*----------*");
+    x -= 8;
+    ++y;
+    mvprintw(y++, x, "C implementation by Adam Gray");
+    ++y;
+    x += 2;
+    mvprintw(y, x, "Press any key to continue");
+    getch();
+    clear();
+}
+
 void render_hand(interface * p_interface, player * p_player, int8_t opt_y) {
     /* Show hand */
     int16_t y = (p_interface->center_y / 3);
@@ -44,6 +60,14 @@ void render_play_area(interface * p_interface, player * p_player) {
     for (int8_t i = 0; i < p_player->play_area->card_count; ++i) {
         card * p_card = p_player->play_area->cards[i];
         mvprintw(y++, x, "%-10s", p_card->name);
+    }
+}
+
+void clear_play_area(interface * p_interface, player * p_player) {
+    int16_t y = (p_interface->center_y / 3);
+    int16_t x = (p_interface->center_x - 8);
+    for (int8_t i; i < p_player->play_area->limit; ++i) {
+        mvprintw(y++, x, "          ");
     }
 }
 

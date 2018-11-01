@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "interface.h"
+#include "render.h"
 #include "table.h"
 #include "cards.h"
 #include "player.h"

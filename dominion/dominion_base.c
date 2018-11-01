@@ -38,40 +38,40 @@ card_stack ** base_set() {
      * and taking the integer they form. See "instruction_mapping.txt"
      */
 
-    /*         #cards  type                 name         cost value instructions        place in base_set               */
-    if (!add_cards(30, CURSE,               "Curse",        0, -1,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(24, VICTORY,             "Estate",       2,  1,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(12, VICTORY,             "Duchy",        5,  3,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(12, VICTORY,             "Province",     8,  6,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(60, TREASURE,            "Copper",       0,  1,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(40, TREASURE,            "Silver",       3,  2,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(30, TREASURE,            "Gold",         6,  3,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Cellar",       2,  0,  2,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Chapel",       2,  0,  14,              *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION + REACTION,   "Moat",         2,  0,  33,              *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Harbinger",    3,  0,  34,              *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Merchant",     3,  0,  34,              *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Vassal",       3,  0,  132,             *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Village",      3,  0,  1090,            *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Workshop",     3,  0,  6,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Bureaucrat",   4,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(12, GARDEN + VICTORY,    "Gardens",      4,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Militia",      4,  0,  132,             *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Moneylender",  4,  0,  8,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Poacher",      4,  0,  34953,           *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Remodel",      4,  0,  10,              *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Smithy",       4,  0,  1057,            *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Throne Room",  4,  0,  11,              *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Bandit",       5,  0,  12,              *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Council Room", 5,  0,  34636909,        *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Festival",     5,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Laboratory",   5,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Library",      5,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Market",       5,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Mine",         5,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Sentry",       5,  0,  0,               *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Witch",        5,  0,  1061,            *(p_base_set++))) { return NULL; }
-    if (!add_cards(10, ACTION,              "Artisan",      6,  0,  0,               *(p_base_set)))   { return NULL; }
+    /*         #cards  type                 name         cost value         place in base_set               */
+    if (!add_cards(30, CURSE,               "Curse",        0, -1,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(24, VICTORY,             "Estate",       2,  1,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(12, VICTORY,             "Duchy",        5,  3,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(12, VICTORY,             "Province",     8,  6,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(60, TREASURE,            "Copper",       0,  1,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(40, TREASURE,            "Silver",       3,  2,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(30, TREASURE,            "Gold",         6,  3,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Cellar",       2,  2,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Chapel",       2,  14,         *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION + REACTION,   "Moat",         2,  33,         *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Harbinger",    3,  34,         *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Merchant",     3,  34,         *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Vassal",       3,  132,        *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Village",      3,  1090,       *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Workshop",     3,  6,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Bureaucrat",   4,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(12, GARDEN + VICTORY,    "Gardens",      4,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Militia",      4,  132,        *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Moneylender",  4,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Poacher",      4,  34953,      *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Remodel",      4,  10,         *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Smithy",       4,  1057,       *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Throne Room",  4,  11,         *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Bandit",       5,  12,         *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Council Room", 5,  34636909,   *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Festival",     5,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Laboratory",   5,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Library",      5,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Market",       5,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Mine",         5,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Sentry",       5,  0,          *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Witch",        5,  1061,       *(p_base_set++))) { return NULL; }
+    if (!add_cards(10, ACTION,              "Artisan",      6,  0,          *(p_base_set)))   { return NULL; }
 
     return base_set;
 }

@@ -69,9 +69,9 @@ void buy_phase_view(interface * p_interface, table * p_table, player * p_player)
     return;
 }
 
-void select_treasure(interface * p_interface, table * p_table, player * p_player, int8_t * opt_x, int8_t * opt_y, int16_t * c) {
-    while ((*c = getch()) != 10 && *c != 13) {
-        switch (*c) {
+void select_treasure(interface * p_interface, table * p_table, player * p_player, int8_t * p_opt_x, int8_t * p_opt_y, int16_t * p_c) {
+    while ((*p_c = getch()) != 10 && *p_c != 13) {
+        switch (*p_c) {
             case 'q':
                 /* Player ends buy phase */
                 return;
@@ -79,47 +79,47 @@ void select_treasure(interface * p_interface, table * p_table, player * p_player
                 /* TODO: description */
                 break;
             case KEY_UP:
-                if (*opt_y > 0) {
-                    --(*opt_y);
-                    if (*opt_x) {
+                if (*p_opt_y > 0) {
+                    --(*p_opt_y);
+                    if (*p_opt_x) {
                         /* If on supply piles, re-render supply piles with correct selection */
-                        render_supply_piles(p_interface, p_table, *opt_y);
+                        render_supply_piles(p_interface, p_table, *p_opt_y);
                     } else {
                         /* If on hand, re-render hand with correct selection */
-                        render_hand(p_interface, p_player, *opt_y);
+                        render_hand(p_interface, p_player, *p_opt_y);
                     }
                 }
                 break;
             case KEY_DOWN:
-                if ((*opt_x && *opt_y < (SUPPLY_PILES - 1)) || (!(*opt_x) && *opt_y < p_player->hand->card_count - 1)) {
-                    ++(*opt_y);
-                    if (opt_x) {
+                if ((*p_opt_x && *p_opt_y < (SUPPLY_PILES - 1)) || (!(*p_opt_x) && *p_opt_y < p_player->hand->card_count - 1)) {
+                    ++(*p_opt_y);
+                    if (*p_opt_x) {
                         /* If on supply piles, re-render supply piles with correct selection */
-                        render_supply_piles(p_interface, p_table, *opt_y);
+                        render_supply_piles(p_interface, p_table, *p_opt_y);
                     } else {
                         /* If on hand, re-render hand with correct selection */
-                        render_hand(p_interface, p_player, *opt_y);
+                        render_hand(p_interface, p_player, *p_opt_y);
                     }
                 }
                 break;
             case KEY_LEFT:
-                if (*opt_x == 1 && p_player->hand->card_count > 0) {
+                if (*p_opt_x == 1 && p_player->hand->card_count > 0) {
                     /* Switch to hand */
-                    *opt_x = 0;
-                    /* opt_y can be max # of cards in hand minus 1 */
-                    *opt_y = (*opt_y > p_player->hand->card_count - 1) ? p_player->hand->card_count - 1 : *opt_y;
+                    *p_opt_x = 0;
+                    /* p_opt_y can be max # of cards in hand minus 1 */
+                    *p_opt_y = (*p_opt_y > p_player->hand->card_count - 1) ? p_player->hand->card_count - 1 : *p_opt_y;
                     /* Render supply piles with no highlight */
                     render_supply_piles(p_interface, p_table, -1);
                     /* Render hand with corect seelction */
-                    render_hand(p_interface, p_player, *opt_y);
+                    render_hand(p_interface, p_player, *p_opt_y);
                 }
                 break;
             case KEY_RIGHT:
-                if (*opt_x == 0) {
+                if (*p_opt_x == 0) {
                     /* Switch to supply piles */
-                    *opt_x = 1;
+                    *p_opt_x = 1;
                     /* Render supply piles with some card selected */
-                    render_supply_piles(p_interface, p_table, *opt_y);
+                    render_supply_piles(p_interface, p_table, *p_opt_y);
                     /* render hand with no card selected */
                     render_hand(p_interface, p_player, -1);
                 }
@@ -160,7 +160,7 @@ void action_phase_view(interface * p_interface, table * p_table, player * p_play
             /* Push card to play area */
             push_card(p_card, p_player->play_area);
             /* Execute action card instructions */
-            execute_action_card_instructions(p_interface, p_card->instructions, p_table);
+            execute_action_card_instructions(p_interface, p_card->value, p_table);
             /* Break loop */
             m = 0;
         }
@@ -171,14 +171,15 @@ void action_phase_view(interface * p_interface, table * p_table, player * p_play
     move(p_interface->bottom_y - 1, 0); clrtoeol();
     move(p_interface->bottom_y, 0); clrtoeol();
 
+
     /* Next action */
     p_player->actions -= 1;
     return;
 }
 
-void select_action_card(interface * p_interface, table * p_table, player * p_player, int8_t * opt_y, int16_t * c) {
-    while ((*c = getch()) != 10 && *c != 13) {
-        switch (*c) {
+void select_action_card(interface * p_interface, table * p_table, player * p_player, int8_t * p_opt_y, int16_t * p_c) {
+    while ((*p_c = getch()) != 10 && *p_c != 13) {
+        switch (*p_c) {
             case 'q':
                 /* Player ends action phase */
                 return;
@@ -186,15 +187,15 @@ void select_action_card(interface * p_interface, table * p_table, player * p_pla
                 /* TODO: description */
                 break;
             case KEY_UP:
-                if (*opt_y - 1 >= 0) {
-                    --(*opt_y);
-                    render_hand(p_interface, p_player, *opt_y);
+                if (*p_opt_y - 1 >= 0) {
+                    --(*p_opt_y);
+                    render_hand(p_interface, p_player, *p_opt_y);
                 }
                 break;
             case KEY_DOWN:
-                if (*opt_y < p_player->hand->card_count - 1) {
-                    ++(*opt_y);
-                    render_hand(p_interface, p_player, *opt_y);
+                if (*p_opt_y < p_player->hand->card_count - 1) {
+                    ++(*p_opt_y);
+                    render_hand(p_interface, p_player, *p_opt_y);
                 }
                 break;
             default:

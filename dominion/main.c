@@ -1,5 +1,14 @@
 /* Dominion */
-#include "headers.h"
+#include "ncurses.h"
+#include "definitions.h"
+#include "dominion_base.h"
+#include "interface.h"
+#include "render.h"
+#include "player_select_view.h"
+#include "table.h"
+#include "randomize.h"
+#include "draw.h"
+#include "gameplay.h"
 
 int main(void) {
     /* Initialize curses */
@@ -31,7 +40,7 @@ int main(void) {
     p_interface->center_y = (LINES - 1) / 2;
 
     /* Show title view */
-    title_view(p_interface);
+    render_title(p_interface);
 
     int8_t player_count;
     char * names = (char *)malloc(24 * sizeof(char));
@@ -66,6 +75,8 @@ int main(void) {
 
     /* Begin the game */
     gameplay(p_interface, p_table);
+
+    /* Render game over & overview */
 
     /* Stop curses */
     endwin();

@@ -4,6 +4,8 @@ void cleanup_phase(interface * p_interface, table * p_table) {
     /* Get pointer to player whose turn it is */
     player * p_player = p_table->players[p_table->turn];
 
+    clear_play_area(p_interface, p_player);
+
     /* Transfer all cards in hand to discard pile */
     while (p_player->hand->card_count > 0) {
         pop_and_push(p_player->discard, p_player->hand);
